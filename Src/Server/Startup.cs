@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Server.Domain.DbModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Server
 {
@@ -27,6 +29,11 @@ namespace Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //添加数据上下文
+            services.AddDbContext<MyZoneContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("Default"))
+            );
+
             // Add framework services.
             services.AddMvc();
         }

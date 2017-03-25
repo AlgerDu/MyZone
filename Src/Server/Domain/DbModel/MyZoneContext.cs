@@ -15,11 +15,9 @@ namespace Server.Domain.DbModel
         public virtual DbSet<Url> Url { get; set; }
         public virtual DbSet<Volume> Volume { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseNpgsql(@"Host=localhost;Database=MyZone;Username=postgres;Password=duzhiwei");
-        }
+        public MyZoneContext(DbContextOptions<MyZoneContext> options)
+            : base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
