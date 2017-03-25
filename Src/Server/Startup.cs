@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Server.Domain.DbModel;
+using MyZone.Server.Domain.DbModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace Server

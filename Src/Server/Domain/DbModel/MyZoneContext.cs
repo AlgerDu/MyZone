@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Server.Domain.DbModel
+namespace MyZone.Server.Domain.DbModel
 {
     public partial class MyZoneContext : DbContext
     {

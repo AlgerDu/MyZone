@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Server.Domain.DbModel
+namespace MyZone.Server.Domain.DbModel
 {
     public partial class Book
     {
