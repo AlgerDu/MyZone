@@ -70,3 +70,20 @@ CREATE TABLE public."PageParse"--Html 页面解析
     "SScriptCode"   text        NOT NULL,        --SScriptCode 代码
     PRIMARY KEY ("Url","UType")
 );
+
+INSERT INTO "DbEnum" VALUES (0,'枚举','Enum',-1,'');
+
+-- 1 ~ 30
+INSERT INTO "DbEnum" VALUES (1,'小说状态','Enum',0,'');
+INSERT INTO "DbEnum" VALUES (2,'页面类型','Page Type',0,'');
+INSERT INTO "DbEnum" VALUES (3,'小说爬取类型','Url Type',0,'');
+
+INSERT INTO "DbEnum" VALUES (31,'连载','Enum',1,'');
+INSERT INTO "DbEnum" VALUES (32,'完结','Enum',1,'');
+
+INSERT INTO "DbEnum" VALUES (41,'未知','Unknown',2,'');
+INSERT INTO "DbEnum" VALUES (42,'小说目录','Enum',2,'');
+INSERT INTO "DbEnum" VALUES (43,'小说正文','Enum',2,'');
+
+INSERT INTO "DbEnum" VALUES (51,'官网目录','Enum',3,'');
+INSERT INTO "DbEnum" VALUES (52,'第三方目录','Enum',3,'');
