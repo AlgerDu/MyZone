@@ -35,7 +35,25 @@ namespace MyZone.Server.Models.DTO
 
         public int OpsCount { get; private set; }
 
-        public int Code { get; }
+        public int Code
+        {
+            get
+            {
+                var count = _items.Values.Count(i => i.Success == false);
+                if (count == 0)
+                {
+                    return 0;
+                }
+                else if (count < OpsCount)
+                {
+                    return 2;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+        }
 
         public string Message { get; set; }
 

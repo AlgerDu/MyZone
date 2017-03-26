@@ -8,7 +8,7 @@ namespace MyZone.Server.Models
         /// <summary>
         /// 未知类型
         /// </summary>
-        Unkonwn,
+        Unknown,
 
         /// <summary>
         /// 小说目录
