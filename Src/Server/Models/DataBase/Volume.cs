@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyZone.Server.Domain.DbModel
+namespace MyZone.Server.Models.DataBase
 {
     public partial class Volume
     {
