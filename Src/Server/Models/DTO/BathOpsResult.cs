@@ -74,7 +74,7 @@ namespace MyZone.Server.Models.DTO
         /// 添加成功项
         /// </summary>
         /// <param name="item"></param>
-        public void AddSuccessItem(int index, T data = null)
+        public void AddSuccessItem(int index, string msg = null, T data = null)
         {
             if (_items.ContainsKey(index))
             {
@@ -84,7 +84,7 @@ namespace MyZone.Server.Models.DTO
             var item = new BathOpsResultItem<T>();
             item.Success = true;
             item.Index = index;
-            item.Message = null;
+            item.Message = msg;
             item.Data = data;
 
             _items.Add(index, item);

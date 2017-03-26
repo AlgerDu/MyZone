@@ -8,7 +8,7 @@ namespace MyZone.Server.Models
         /// <summary>
         /// 未知类型
         /// </summary>
-        Unknown,
+        Unknown = 41,
 
         /// <summary>
         /// 小说目录
@@ -19,5 +19,21 @@ namespace MyZone.Server.Models
         /// 小说章节正文
         /// </summary>
         NovelChatperContext
+    }
+
+    /// <summary>
+    /// 爬取小说的 URL 类型
+    /// </summary>
+    public enum NovelCrawlUrlType
+    {
+        /// <summary>
+        /// 官网目录
+        /// </summary>
+        Official = 51,
+
+        /// <summary>
+        /// 第三方目录
+        /// </summary>
+        Third
     }
 }
