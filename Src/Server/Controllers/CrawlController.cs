@@ -2,7 +2,9 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MyZone.Server.Infrastructure.Helpers;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models;
 using MyZone.Server.Models.DataBase;
@@ -39,7 +41,7 @@ namespace MyZone.Server.Controllers
 
             if (code == null || string.IsNullOrEmpty(code.SscriptCode))
             {
-                var host = Regex.Split(page.Url, @"(^http[s]?://[^/:]+(:\d*)?)")[0];
+                var host = UrlHelper.GetHost(page.Url);
                 var hostCode = context.PageParse.FirstOrDefault(p => p.Url == host && p.Utype == (long)page.Type);
 
                 if (hostCode != null)
@@ -65,6 +67,20 @@ namespace MyZone.Server.Controllers
                     MinLength = code.MinLength
                 });
             }
+        }
+
+        /// <summary>
+        /// 添加页面的处理 SsCode
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public IBathOpsResult<string> AddParsePage(
+            [FromServices]MyZoneContext context,
+            [FromBody]PageParseCodeDTO[] parses)
+        {
+            var result = new BathOpsResult<string>(parses.Length);
+            return result;
         }
     }
 }
