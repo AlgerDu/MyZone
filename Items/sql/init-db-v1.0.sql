@@ -35,6 +35,8 @@ CREATE TABLE public."Chapter"--章节
     "Name"          text        NOT NULL,       --小说名称
     "PublishTime"   timestamp   NOT NULL,       --章节发布时间
     "WordCount"     int         NOT NULL,       --字数
+    "Vip"           boolean     NOT NULL,
+    "NeedCrawl"     boolean     NOT NULL,
     PRIMARY KEY ("Uid")
 );
 

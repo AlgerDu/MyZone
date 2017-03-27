@@ -13,6 +13,8 @@ namespace MyZone.Server.Models.DataBase
         public string Name { get; set; }
         public DateTime PublishTime { get; set; }
         public int WordCount { get; set; }
+        public bool Vip { get; set; }
+        public bool NeedCrawl { get; set; }
 
         public virtual Book BookU { get; set; }
     }
