@@ -158,5 +158,92 @@ namespace MyZone.Server.Controllers
 
             return result;
         }
+
+        /// <summary>
+        /// 爬虫获取小说需要的目录信息
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public IDResult<NovelCrawlCatalogDTO> NovelCatalog(
+            [FromServices]MyZoneContext context,
+            Guid uid)
+        {
+            var catalog = new NovelCrawlCatalogDTO();
+
+            var book = context.Book
+                .Include(b => b.Volume)
+                .Include(b => b.Chapter)
+                .FirstOrDefault(b => b.Uid == uid);
+
+            if (book == null)
+            {
+                return DResult.Error<NovelCrawlCatalogDTO>("书籍不存在");
+            }
+
+            catalog.Vs = book.Volume
+                .Select(v => new NovelCrawlVolumeDTO
+                {
+                    No = v.No,
+                    Name = v.Name
+                })
+                .OrderBy(v => v.No)
+                .ToArray();
+
+            catalog.Cs = book.Chapter
+                .Select(c => new NovelCrawlChapterDTO
+                {
+                    Uid = c.Uid,
+                    VolumeNo = c.VolumeNo,
+                    VolumeIndex = c.VolumeIndex,
+                    Name = c.Name,
+                    WordCount = c.WordCount,
+                    PublishTime = c.PublishTime,
+                    Vip = c.Vip,
+                    NeedCrawl = c.NeedCrawl
+                })
+                .OrderBy(c => c.VolumeNo)
+                .OrderBy(c => c.VolumeIndex)
+                .ToArray();
+
+            return DResult.Success(catalog);
+        }
+
+        /// <summary>
+        /// 上传爬取好的小说卷信息
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="volume"></param>
+        /// <returns></returns>
+        public IDResult UploadVolume(
+            [FromServices]MyZoneContext context,
+            [FromBody]VolumeUploadDTO volume)
+        {
+            var book = context.Book
+                .Include(b => b.Volume)
+                .FirstOrDefault(b => b.Uid == volume.BookUid);
+
+            if (book == null)
+            {
+                return DResult.Error("书籍不存在");
+            }
+            else if (book.Volume.FirstOrDefault(v => v.No == volume.No) != null)
+            {
+                return DResult.Error("存在相同编号的卷信息");
+            }
+            else
+            {
+                book.Volume.Add(new Volume
+                {
+                    BookUid = volume.BookUid,
+                    No = volume.No,
+                    Name = volume.Name
+                });
+
+                context.SaveChanges();
+
+                return DResult.Success();
+            }
+        }
     }
 }
