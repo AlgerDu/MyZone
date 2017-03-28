@@ -50,7 +50,9 @@ namespace MyZone.Server.Controllers
                     {
                         Url = page.Url,
                         SSCriptCode = hostCode.SscriptCode,
-                        MinLength = code == null || code.MinLength <= 0 ? hostCode.MinLength : code.MinLength
+                        MinLength = code == null || code.MinLength <= 0 ? hostCode.MinLength : code.MinLength,
+                        IsCommon = true,
+                        Type = (PageType)hostCode.Utype
                     });
                 }
                 else
@@ -64,7 +66,9 @@ namespace MyZone.Server.Controllers
                 {
                     Url = page.Url,
                     SSCriptCode = code.SscriptCode,
-                    MinLength = code.MinLength
+                    MinLength = code.MinLength,
+                    IsCommon = false,
+                    Type = (PageType)code.Utype
                 });
             }
         }
@@ -80,6 +84,58 @@ namespace MyZone.Server.Controllers
             [FromBody]PageParseCodeDTO[] parses)
         {
             var result = new BathOpsResult<string>(parses.Length);
+
+            for (int i = 0; i < parses.Length; i++)
+            {
+                var parse = parses[i];
+                var hostStr = UrlHelper.GetHost(parse.Url);
+                var pathStr = UrlHelper.GetPath(parse.Url);
+
+                var pp = context.PageParse
+                    .FirstOrDefault(p => p.Url == parse.Url);
+
+                if (pp == null && !parse.IsCommon)
+                {
+                    context.PageParse.Add(new PageParse
+                    {
+                        Url = parse.Url,
+                        SscriptCode = parse.SSCriptCode,
+                        MinLength = parse.MinLength,
+                        Utype = (long)parse.Type
+                    });
+                    result.AddSuccessItem(i);
+                }
+                else if (!parse.IsCommon)
+                {
+                    result.AddErrorItem(i, "页面已经存在处理代码");
+                }
+                else if (pp != null || context.PageParse.FirstOrDefault(p => p.Url == hostStr) != null)
+                {
+                    result.AddErrorItem(i, "页面已经存在处理代码");
+                }
+                else
+                {
+                    context.PageParse.Add(new PageParse
+                    {
+                        Url = hostStr,
+                        SscriptCode = parse.SSCriptCode,
+                        MinLength = -1,
+                        Utype = (long)parse.Type
+                    });
+                    if (pathStr != "" && pathStr != "/")
+                    {
+                        context.PageParse.Add(new PageParse
+                        {
+                            Url = parse.Url,
+                            SscriptCode = "",
+                            MinLength = parse.MinLength,
+                            Utype = (long)parse.Type
+                        });
+                    }
+                    result.AddSuccessItem(i);
+                }
+            }
+            context.SaveChanges();
             return result;
         }
     }

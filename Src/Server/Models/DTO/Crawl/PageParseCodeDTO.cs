@@ -20,6 +20,11 @@ namespace MyZone.Server.Models.DTO.Crawl
         /// <summary>
         /// SSCriptCode 是否可以通用（同一域名下所有的相同类型的域名都可以使用）
         /// </summary>
-        //public bool IsCommon { get; set; }
+        public bool IsCommon { get; set; }
+
+        /// <summary>
+        /// 页面类型
+        /// </summary>
+        public PageType Type { get; set; }
     }
 }
