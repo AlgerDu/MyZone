@@ -288,5 +288,35 @@ namespace MyZone.Server.Controllers
                 return DResult.Success();
             }
         }
+
+        /// <summary>
+        /// 上传小说章节正文信息
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public IDResult UploadChapterText(
+            [FromServices]MyZoneContext context,
+            [FromBody]ChapterTextUploadDTO text)
+        {
+            var chapter = context.Chapter
+                .FirstOrDefault(c => c.Uid == text.cUid);
+
+            if (chapter == null)
+            {
+                return DResult.Error("章节信息不存在");
+            }
+            else if (!chapter.NeedCrawl)
+            {
+                return DResult.Error("章节不需要重新爬取");
+            }
+            else
+            {
+                chapter.Text = text.Text;
+                chapter.NeedCrawl = false;
+                context.SaveChanges();
+                return DResult.Success();
+            }
+        }
     }
 }
