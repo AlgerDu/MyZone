@@ -245,5 +245,48 @@ namespace MyZone.Server.Controllers
                 return DResult.Success();
             }
         }
+
+        /// <summary>
+        /// 上传爬取好的小说章节信息
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="chapter"></param>
+        /// <returns></returns>
+        public IDResult UploadChapter(
+            [FromServices]MyZoneContext context,
+            [FromBody]ChapterUploadDTO chapter)
+        {
+            var book = context.Book
+                .Include(b => b.Chapter)
+                .FirstOrDefault(b => b.Uid == chapter.BookUid);
+
+            if (book == null)
+            {
+                return DResult.Error("书籍不存在");
+            }
+            else if (book.Chapter.FirstOrDefault(c => c.VolumeNo == chapter.VolumeNo && c.VolumeIndex == chapter.VolumeIndex) != null)
+            {
+                return DResult.Error("存在相同的章节信息");
+            }
+            else
+            {
+                book.Chapter.Add(new Chapter
+                {
+                    Uid = chapter.Uid,
+                    BookUid = chapter.BookUid,
+                    Name = chapter.Name,
+                    VolumeNo = chapter.VolumeNo,
+                    VolumeIndex = chapter.VolumeIndex,
+                    PublishTime = chapter.PublishTime,
+                    Vip = chapter.Vip,
+                    WordCount = chapter.WordCount,
+                    NeedCrawl = true,
+                    Text = ""
+                });
+
+                context.SaveChanges();
+                return DResult.Success();
+            }
+        }
     }
 }
