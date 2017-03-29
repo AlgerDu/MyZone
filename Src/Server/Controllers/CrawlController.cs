@@ -109,7 +109,7 @@ namespace MyZone.Server.Controllers
                 {
                     result.AddErrorItem(i, "页面已经存在处理代码");
                 }
-                else if (pp != null || context.PageParse.FirstOrDefault(p => p.Url == hostStr) != null)
+                else if (pp != null || context.PageParse.FirstOrDefault(p => p.Url == hostStr && p.Utype == (long)parse.Type) != null)
                 {
                     result.AddErrorItem(i, "页面已经存在处理代码");
                 }
