@@ -318,5 +318,15 @@ namespace MyZone.Server.Controllers
                 return DResult.Success();
             }
         }
+
+        public IDResult<NovelCrawl[]> BookCrawlUrl(
+            [FromServices]MyZoneContext context,
+            Guid uid)
+        {
+            var urls = context.NovelCrawl
+                .Where(nc => nc.BookUid == uid);
+
+            return DResult.Success(urls.ToArray());
+        }
     }
 }
