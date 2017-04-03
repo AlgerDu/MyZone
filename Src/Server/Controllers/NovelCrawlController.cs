@@ -203,7 +203,7 @@ namespace MyZone.Server.Controllers
                     NeedCrawl = c.NeedCrawl
                 })
                 .OrderBy(c => c.VolumeNo)
-                .OrderBy(c => c.VolumeIndex)
+                .ThenBy(c => c.VolumeIndex)
                 .ToArray();
 
             return DResult.Success(catalog);
