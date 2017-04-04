@@ -1,30 +1,17 @@
 {
-    "version": "0.2.0",
+    "version": "1.0",
     "configurations": [
         {
-            "type": "node",
-            "request": "launch",
-            "name": "client side start",
-            "runtimeExecutable": "npm",
-            "windows": {
-                "runtimeExecutable": "npm.cmd"
-            },
-            "cwd": "${workspaceRoot}/Src/ClientApp/",
-            "runtimeArgs": [
-                "start"
-            ]
-        },
-        {
-            "name": "LiveChatServer",
+            "name": "MyZoneServer",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}/Src/Server/bin/Debug/netcoreapp1.0/LiveChatServer.dll",
+            "program": "${workspaceRoot}/Src/Server/bin/Debug/netcoreapp1.1/MyZone.Server.dll",
             "args": [],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/Src/Server",
             "stopAtEntry": false,
             "launchBrowser": {
-                "enabled": true,
+                "enabled": false,
                 "args": "${auto-detect-url}",
                 "windows": {
                     "command": "cmd.exe",

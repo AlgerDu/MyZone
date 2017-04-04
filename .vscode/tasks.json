@@ -9,7 +9,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}\\Src\\Server\\project.json"
+                "${workspaceRoot}\\Src\\Server\\MyZone.Server.csproj"
             ],
             "isBuildCommand": true,
             "showOutput": "silent",
