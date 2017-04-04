@@ -32,7 +32,7 @@ namespace MyZone.Server.Controllers
         /// <param name="type">页面类型</param>
         /// <returns></returns> <summary> <summary>
         //[HttpPost]
-        public IDResult<PageParseCodeDTO> PageParseCode(
+        public IResult<PageParseCodeDTO> PageParseCode(
             [FromServices]MyZoneContext context,
             [FromBody]PageInfoDTO page)
         {
@@ -46,7 +46,7 @@ namespace MyZone.Server.Controllers
 
                 if (hostCode != null)
                 {
-                    return DResult.Success(new PageParseCodeDTO()
+                    return Result.Success(new PageParseCodeDTO()
                     {
                         Url = page.Url,
                         SSCriptCode = hostCode.SscriptCode,
@@ -57,12 +57,12 @@ namespace MyZone.Server.Controllers
                 }
                 else
                 {
-                    return DResult.Error<PageParseCodeDTO>("没有对应的解析代码");
+                    return Result.Error<PageParseCodeDTO>("没有对应的解析代码");
                 }
             }
             else
             {
-                return DResult.Success(new PageParseCodeDTO()
+                return Result.Success(new PageParseCodeDTO()
                 {
                     Url = page.Url,
                     SSCriptCode = code.SscriptCode,

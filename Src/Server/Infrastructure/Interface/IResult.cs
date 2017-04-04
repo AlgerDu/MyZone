@@ -3,7 +3,7 @@ namespace MyZone.Server.Infrastructure.Interface
     /// <summary>
     /// 通用数据返回接口
     /// </summary>
-    public interface IDResult
+    public interface IResult
     {
         /// <summary>
         /// 返回码 0 代表成功
@@ -19,7 +19,7 @@ namespace MyZone.Server.Infrastructure.Interface
     /// <summary>
     /// 通用数据返回接口
     /// </summary>
-    public interface IDResult<T> : IDResult where T : class
+    public interface IResult<T> : IResult where T : class
     {
         /// <summary>
         /// 返回数据

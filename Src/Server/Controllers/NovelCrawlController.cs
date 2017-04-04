@@ -165,7 +165,7 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public IDResult<NovelCrawlCatalogDTO> NovelCatalog(
+        public IResult<NovelCrawlCatalogDTO> NovelCatalog(
             [FromServices]MyZoneContext context,
             Guid uid)
         {
@@ -178,7 +178,7 @@ namespace MyZone.Server.Controllers
 
             if (book == null)
             {
-                return DResult.Error<NovelCrawlCatalogDTO>("书籍不存在");
+                return Result.Error<NovelCrawlCatalogDTO>("书籍不存在");
             }
 
             catalog.Vs = book.Volume
@@ -206,7 +206,7 @@ namespace MyZone.Server.Controllers
                 .ThenBy(c => c.VolumeIndex)
                 .ToArray();
 
-            return DResult.Success(catalog);
+            return Result.Success(catalog);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="volume"></param>
         /// <returns></returns>
-        public IDResult UploadVolume(
+        public IResult UploadVolume(
             [FromServices]MyZoneContext context,
             [FromBody]VolumeUploadDTO volume)
         {
@@ -225,11 +225,11 @@ namespace MyZone.Server.Controllers
 
             if (book == null)
             {
-                return DResult.Error("书籍不存在");
+                return Result.Error("书籍不存在");
             }
             else if (book.Volume.FirstOrDefault(v => v.No == volume.No) != null)
             {
-                return DResult.Error("存在相同编号的卷信息");
+                return Result.Error("存在相同编号的卷信息");
             }
             else
             {
@@ -242,7 +242,7 @@ namespace MyZone.Server.Controllers
 
                 context.SaveChanges();
 
-                return DResult.Success();
+                return Result.Success();
             }
         }
 
@@ -252,7 +252,7 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="chapter"></param>
         /// <returns></returns>
-        public IDResult UploadChapter(
+        public IResult UploadChapter(
             [FromServices]MyZoneContext context,
             [FromBody]ChapterUploadDTO chapter)
         {
@@ -262,11 +262,11 @@ namespace MyZone.Server.Controllers
 
             if (book == null)
             {
-                return DResult.Error("书籍不存在");
+                return Result.Error("书籍不存在");
             }
             else if (book.Chapter.FirstOrDefault(c => c.VolumeNo == chapter.VolumeNo && c.VolumeIndex == chapter.VolumeIndex) != null)
             {
-                return DResult.Error("存在相同的章节信息");
+                return Result.Error("存在相同的章节信息");
             }
             else
             {
@@ -284,7 +284,7 @@ namespace MyZone.Server.Controllers
                 });
 
                 context.SaveChanges();
-                return DResult.Success();
+                return Result.Success();
             }
         }
 
@@ -294,7 +294,7 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public IDResult UploadChapterText(
+        public IResult UploadChapterText(
             [FromServices]MyZoneContext context,
             [FromBody]ChapterTextUploadDTO text)
         {
@@ -303,11 +303,11 @@ namespace MyZone.Server.Controllers
 
             if (chapter == null)
             {
-                return DResult.Error("章节信息不存在");
+                return Result.Error("章节信息不存在");
             }
             else if (!chapter.NeedCrawl)
             {
-                return DResult.Error("章节不需要重新爬取");
+                return Result.Error("章节不需要重新爬取");
             }
             else
             {
@@ -322,18 +322,18 @@ namespace MyZone.Server.Controllers
                 };
 
                 context.SaveChanges();
-                return DResult.Success();
+                return Result.Success();
             }
         }
 
-        public IDResult<NovelCrawl[]> BookCrawlUrl(
+        public IResult<NovelCrawl[]> BookCrawlUrl(
             [FromServices]MyZoneContext context,
             Guid uid)
         {
             var urls = context.NovelCrawl
                 .Where(nc => nc.BookUid == uid);
 
-            return DResult.Success(urls.ToArray());
+            return Result.Success(urls.ToArray());
         }
     }
 }
