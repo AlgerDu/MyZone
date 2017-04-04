@@ -6,7 +6,7 @@ namespace MyZone.Server.Infrastructure.Interface
     /// <summary>
     /// 仓储接口
     /// </summary>
-    public interface IRepository<TEntity> where TEntity : IAggregateRoot
+    public interface IRepository<TEntity, KeyType> where TEntity : IAggregateRoot<KeyType>
     {
         /// <summary>
         /// 仓储中的实体列表
@@ -22,7 +22,7 @@ namespace MyZone.Server.Infrastructure.Interface
 
         IBathOpsResult Insert(IEnumerable<TEntity> entities);
 
-        IResult Delete(object id);
+        IResult Delete(KeyType key);
 
         IResult Delete(TEntity entity);
 
@@ -30,6 +30,6 @@ namespace MyZone.Server.Infrastructure.Interface
 
         IResult Update(TEntity entity);
 
-        TEntity GetByKey(object key);
+        TEntity GetByKey(KeyType key);
     }
 }
