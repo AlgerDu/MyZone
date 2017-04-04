@@ -7,6 +7,7 @@ namespace MyZone.Server.Models.DataBase
     {
         public DbEnum()
         {
+            Content = new HashSet<Content>();
             NovelCrawl = new HashSet<NovelCrawl>();
             PageParse = new HashSet<PageParse>();
             Url = new HashSet<Url>();
@@ -18,6 +19,7 @@ namespace MyZone.Server.Models.DataBase
         public long ParentId { get; set; }
         public string Description { get; set; }
 
+        public virtual ICollection<Content> Content { get; set; }
         public virtual ICollection<NovelCrawl> NovelCrawl { get; set; }
         public virtual ICollection<PageParse> PageParse { get; set; }
         public virtual ICollection<Url> Url { get; set; }

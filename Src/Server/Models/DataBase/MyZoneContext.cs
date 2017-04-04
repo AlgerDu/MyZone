@@ -8,6 +8,7 @@ namespace MyZone.Server.Models.DataBase
     {
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<Chapter> Chapter { get; set; }
+        public virtual DbSet<Content> Content { get; set; }
         public virtual DbSet<DbEnum> DbEnum { get; set; }
         public virtual DbSet<Host> Host { get; set; }
         public virtual DbSet<NovelCrawl> NovelCrawl { get; set; }
@@ -42,13 +43,35 @@ namespace MyZone.Server.Models.DataBase
 
                 entity.Property(e => e.Name).IsRequired();
 
-                entity.Property(e => e.Text).IsRequired();
-
                 entity.HasOne(d => d.BookU)
                     .WithMany(p => p.Chapter)
                     .HasForeignKey(d => d.BookUid)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Chapter_BookUid_fkey");
+
+                entity.HasOne(d => d.ContextU)
+                    .WithMany(p => p.Chapter)
+                    .HasForeignKey(d => d.ContextUid)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("Chapter_ContextUid_fkey");
+            });
+
+            modelBuilder.Entity<Content>(entity =>
+            {
+                entity.HasKey(e => e.Uid)
+                    .HasName("PK_Content");
+
+                entity.Property(e => e.Uid).ValueGeneratedNever();
+
+                entity.Property(e => e.Ctype).HasColumnName("CType");
+
+                entity.Property(e => e.Txt).IsRequired();
+
+                entity.HasOne(d => d.CtypeNavigation)
+                    .WithMany(p => p.Content)
+                    .HasForeignKey(d => d.Ctype)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("Content_CType_fkey");
             });
 
             modelBuilder.Entity<DbEnum>(entity =>
