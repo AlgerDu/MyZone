@@ -8,6 +8,17 @@ CREATE TABLE public."DbEnum"
     PRIMARY KEY ("ID")
 );
 
+CREATE TABLE public."Content"
+(
+    "Uid"           uuid        NOT NULL,
+    "Txt"           text        NOT NULL,
+    "CreateTime"    timestamp   NOT NULL,
+    "EditeTime"     timestamp,
+    "CType"         bigint      NOT NULL references "DbEnum"("ID"),--博客、消息、小说
+    --"Language"      bigint      NOT NULL references "DbEnum"("ID"),--中文、英文
+    PRIMARY KEY ("Uid")
+);
+
 CREATE TABLE public."Book"
 (
     "Uid"           uuid        NOT NULL,--书籍 ID
@@ -28,10 +39,10 @@ CREATE TABLE public."Chapter"--章节
 (
     "Uid"           uuid        NOT NULL,
     "BookUid"       uuid        NOT NULL references "Book"("Uid"),      --小说GUID
-    --"ContextGuid"   uuid        NOT NULL references "Content"("GUID"),  --内容GUID
+    "ContextUid"    uuid        NOT NULL references "Content"("Uid"),  --内容GUID
     "VolumeNo"      bigint      NOT NULL,       --卷编号
     "VolumeIndex"   bigint      NOT NULL,       --卷内序号
-    "Text"          text        NOT NULL,
+    --"Text"          text        NOT NULL,
     "Name"          text        NOT NULL,       --小说名称
     "PublishTime"   timestamp   NOT NULL,       --章节发布时间
     "WordCount"     int         NOT NULL,       --字数
@@ -79,6 +90,7 @@ INSERT INTO "DbEnum" VALUES (0,'枚举','Enum',-1,'');
 INSERT INTO "DbEnum" VALUES (1,'小说状态','Enum',0,'');
 INSERT INTO "DbEnum" VALUES (2,'页面类型','Page Type',0,'');
 INSERT INTO "DbEnum" VALUES (3,'小说爬取类型','Url Type',0,'');
+INSERT INTO "DbEnum" VALUES (4,'内容类型','Content Type',0,'');
 
 INSERT INTO "DbEnum" VALUES (31,'连载','Enum',1,'');
 INSERT INTO "DbEnum" VALUES (32,'完结','Enum',1,'');
@@ -89,3 +101,7 @@ INSERT INTO "DbEnum" VALUES (43,'小说正文','Enum',2,'');
 
 INSERT INTO "DbEnum" VALUES (51,'官网目录','Enum',3,'');
 INSERT INTO "DbEnum" VALUES (52,'第三方目录','Enum',3,'');
+
+INSERT INTO "DbEnum" VALUES (61,'未知','Unknown',4,'');
+INSERT INTO "DbEnum" VALUES (62,'博客','Blog',4,'');
+INSERT INTO "DbEnum" VALUES (63,'小说正文','Enum',4,'');
