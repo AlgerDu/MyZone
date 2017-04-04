@@ -20,16 +20,46 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <returns></returns>
         IResult Insert(TEntity entity);
 
+        /// <summary>
+        /// 批量插入实体
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
         IBathOpsResult Insert(IEnumerable<TEntity> entities);
 
+        /// <summary>
+        /// 通过主键删除实体
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         IResult Delete(KeyType key);
 
+        /// <summary>
+        /// 通过实体对象删除实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         IResult Delete(TEntity entity);
 
+        /// <summary>
+        /// 通过实体对象批量删除实体
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
         IBathOpsResult Delete(IEnumerable<TEntity> entities);
 
+        /// <summary>
+        /// 更细实体对象
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         IResult Update(TEntity entity);
 
+        /// <summary>
+        /// 通过主键获取一个实体
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         TEntity GetByKey(KeyType key);
     }
 }
