@@ -235,3 +235,5 @@ _Pvt_Extensions
 
 /wwwroot/img/
 Src/Server/wwwroot
+Src/Server/appsettings.json
+Src/Server/appsettings.development.json
