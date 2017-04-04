@@ -280,8 +280,7 @@ namespace MyZone.Server.Controllers
                     PublishTime = chapter.PublishTime,
                     Vip = chapter.Vip,
                     WordCount = chapter.WordCount,
-                    NeedCrawl = true,
-                    Text = ""
+                    NeedCrawl = true
                 });
 
                 context.SaveChanges();
@@ -312,8 +311,16 @@ namespace MyZone.Server.Controllers
             }
             else
             {
-                chapter.Text = text.Text;
                 chapter.NeedCrawl = false;
+
+                chapter.ContextU = new Content
+                {
+                    Uid = Guid.NewGuid(),
+                    Txt = text.Text,
+                    CreateTime = DateTime.Now,
+                    Ctype = (long)ContentType.NovelBody
+                };
+
                 context.SaveChanges();
                 return DResult.Success();
             }

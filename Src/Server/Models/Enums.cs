@@ -36,4 +36,25 @@ namespace MyZone.Server.Models
         /// </summary>
         Third
     }
+
+    /// <summary>
+    /// 内容类型
+    /// </summary>
+    public enum ContentType
+    {
+        /// <summary>
+        /// 位置类型
+        /// </summary>
+        Unknown = 61,
+
+        /// <summary>
+        /// 博客正文
+        /// </summary>
+        Blog,
+
+        /// <summary>
+        /// 小说正文
+        /// </summary>
+        NovelBody
+    }
 }
