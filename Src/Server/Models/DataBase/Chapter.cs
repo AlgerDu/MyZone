@@ -7,7 +7,7 @@ namespace MyZone.Server.Models.DataBase
     {
         public Guid Uid { get; set; }
         public Guid BookUid { get; set; }
-        public Guid ContextUid { get; set; }
+        public Guid? ContextUid { get; set; }
         public long VolumeNo { get; set; }
         public long VolumeIndex { get; set; }
         public string Name { get; set; }

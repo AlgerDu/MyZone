@@ -39,7 +39,7 @@ CREATE TABLE public."Chapter"--章节
 (
     "Uid"           uuid        NOT NULL,
     "BookUid"       uuid        NOT NULL references "Book"("Uid"),      --小说GUID
-    "ContextUid"    uuid        NOT NULL references "Content"("Uid"),  --内容GUID
+    "ContextUid"    uuid        references "Content"("Uid"),  --内容GUID
     "VolumeNo"      bigint      NOT NULL,       --卷编号
     "VolumeIndex"   bigint      NOT NULL,       --卷内序号
     --"Text"          text        NOT NULL,

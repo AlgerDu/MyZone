@@ -52,7 +52,6 @@ namespace MyZone.Server.Models.DataBase
                 entity.HasOne(d => d.ContextU)
                     .WithMany(p => p.Chapter)
                     .HasForeignKey(d => d.ContextUid)
-                    .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("Chapter_ContextUid_fkey");
             });
 
