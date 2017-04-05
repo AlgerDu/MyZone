@@ -1,4 +1,5 @@
 using Autofac;
+using MyZone.Server.Models.Domain.Books;
 
 namespace MyZone.Server
 {
@@ -6,6 +7,7 @@ namespace MyZone.Server
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<BookRepository>().As<IBookRepository>();
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models.DataBase;
 
@@ -8,7 +9,14 @@ namespace MyZone.Server.Models.Domain.Books
 {
     public class BookRepository : IBookRepository
     {
+        MyZoneContext _context;
+
         IQueryable<Book> IRepository<Book, Guid>.Entities => throw new NotImplementedException();
+
+        public BookRepository(MyZoneContext contex)
+        {
+            _context = contex;
+        }
 
         IResult IRepository<Book, Guid>.Delete(Guid key)
         {
@@ -27,7 +35,7 @@ namespace MyZone.Server.Models.Domain.Books
 
         Book IRepository<Book, Guid>.GetByKey(Guid key)
         {
-            throw new NotImplementedException();
+            return _context.Book.FirstOrDefault(b => b.Uid == key);
         }
 
         IResult IRepository<Book, Guid>.Insert(Book entity)

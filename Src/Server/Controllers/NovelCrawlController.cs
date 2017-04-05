@@ -7,6 +7,7 @@ using MyZone.Server.Infrastructure.Helpers;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models;
 using MyZone.Server.Models.DataBase;
+using MyZone.Server.Models.Domain.Books;
 using MyZone.Server.Models.DTO;
 using MyZone.Server.Models.DTO.NovelCrawl;
 
@@ -167,9 +168,12 @@ namespace MyZone.Server.Controllers
         /// <returns></returns>
         public IResult<NovelCrawlCatalogDTO> NovelCatalog(
             [FromServices]MyZoneContext context,
+            [FromServices]IBookRepository bookRepository,
             Guid uid)
         {
             var catalog = new NovelCrawlCatalogDTO();
+
+            var b2 = bookRepository.GetByKey(uid);
 
             var book = context.Book
                 .Include(b => b.Volume)
