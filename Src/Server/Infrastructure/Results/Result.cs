@@ -1,7 +1,7 @@
 using System;
 using MyZone.Server.Infrastructure.Interface;
 
-namespace MyZone.Server.Models.DTO
+namespace MyZone.Server.Infrastructure.Results
 {
     public class Result : IResult
     {
@@ -9,20 +9,20 @@ namespace MyZone.Server.Models.DTO
 
         public string Message { get; set; }
 
-        public static IResult<T2> Success<T2>(T2 data = null)
-            where T2 : class
+        public static IResult<T> Success<T>(T data = null)
+            where T : class
         {
-            return new Result<T2>()
+            return new Result<T>()
             {
                 Code = 0,
                 Data = data
             };
         }
 
-        public static IResult<T2> Error<T2>(string msg = null, T2 data = null)
-            where T2 : class
+        public static IResult<T> Error<T>(string msg = null, T data = null)
+            where T : class
         {
-            return new Result<T2>()
+            return new Result<T>()
             {
                 Code = 1,
                 Message = msg,

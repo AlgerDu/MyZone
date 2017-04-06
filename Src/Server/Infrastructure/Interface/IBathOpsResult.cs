@@ -9,7 +9,7 @@ namespace MyZone.Server.Infrastructure.Interface
     public interface IBathOpsResultItem
     {
         /// <summary>
-        /// 返回码 0 代表成功
+        /// 是否成功
         /// </summary>
         bool Success { get; }
 
@@ -25,7 +25,7 @@ namespace MyZone.Server.Infrastructure.Interface
     }
 
     /// <summary>
-    /// 批量操作结果返回
+    /// 批量操作结果
     /// </summary>
     public interface IBathOpsResult : IResult
     {
@@ -41,7 +41,7 @@ namespace MyZone.Server.Infrastructure.Interface
     }
 
     /// <summary>
-    /// 通用数据返回接口
+    /// 批量操作结果项（泛型）
     /// </summary>
     public interface IBathOpsResultItem<T>
     {
@@ -67,7 +67,7 @@ namespace MyZone.Server.Infrastructure.Interface
     }
 
     /// <summary>
-    /// 批量操作结果返回
+    /// 批量操作结果（泛型）
     /// </summary>
     public interface IBathOpsResult<T> : IResult
         where T : class
