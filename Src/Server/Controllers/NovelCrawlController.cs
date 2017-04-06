@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -33,21 +34,24 @@ namespace MyZone.Server.Controllers
         /// <returns></returns>
         public IBathOpsResult<string> AddNovels(
             [FromServices]MyZoneContext context,
+            [FromServices]IMapper mapper,
             [FromBody]NovelInfoDTO[] novels)
         {
             var result = new BathOpsResult<string>(novels.Length);
 
             for (int i = 0; i < novels.Length; i++)
             {
-                var novel = novels[i];
-                var book = new Book();
-                book.Uid = Guid.NewGuid();
-                book.Name = novel.Name;
-                book.Author = novel.Author;
+                var newBook = mapper.Map<Book>(novels[i]);
+                newBook.Uid = Guid.NewGuid();
+                // var novel = novels[i];
+                // var book = new Book();
+                // book.Uid = Guid.NewGuid();
+                // book.Name = novel.Name;
+                // book.Author = novel.Author;
 
-                context.Book.Add(book);
+                context.Book.Add(newBook);
 
-                result.AddSuccessItem(i, null, book.Uid.ToString());
+                result.AddSuccessItem(i, null, newBook.Uid.ToString());
             }
 
             context.SaveChanges();
