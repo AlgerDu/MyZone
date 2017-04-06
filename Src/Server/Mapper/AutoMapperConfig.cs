@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace MyZone.Server.Infrastructure.Mapper
+namespace MyZone.Server.Mapper
 {
     /// <summary>
     /// AutoMapper 配置项
