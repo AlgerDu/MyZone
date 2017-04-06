@@ -3,29 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MyZone.Server.Infrastructure.Interface;
+using MyZone.Server.Infrastructure.Results;
 using MyZone.Server.Models.DataBase;
+using MyZone.Server.Models.Domain.Base;
 
 namespace MyZone.Server.Models.Domain.Books
 {
     public class BookRepository : IBookRepository
     {
         MyZoneContext _context;
+        DbSet<Book> _dbSet;
 
-        IQueryable<Book> IRepository<Book, Guid>.Entities => throw new NotImplementedException();
+        IQueryable<Book> IRepository<Book, Guid>.Entities
+        {
+            get
+            {
+                return _context.Book;
+            }
+        }
 
         public BookRepository(MyZoneContext contex)
         {
             _context = contex;
+            _dbSet = _context.Set<Book>();
         }
 
         IResult IRepository<Book, Guid>.Delete(Guid key)
         {
-            throw new NotImplementedException();
+            var toDeleteBook = GetByKey(key);
+
+            if (toDeleteBook == null)
+            {
+                return Result.Error("书籍不存在");
+            }
+            else
+            {
+                return Delete(toDeleteBook);
+            }
         }
 
-        IResult IRepository<Book, Guid>.Delete(Book entity)
+        public IResult Delete(Book entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(entity);
+            return Result.Success();
         }
 
         IBathOpsResult IRepository<Book, Guid>.Delete(IEnumerable<Book> entities)
@@ -33,7 +53,7 @@ namespace MyZone.Server.Models.Domain.Books
             throw new NotImplementedException();
         }
 
-        Book IRepository<Book, Guid>.GetByKey(Guid key)
+        public Book GetByKey(Guid key)
         {
             return _context.Book.FirstOrDefault(b => b.Uid == key);
         }
@@ -51,6 +71,11 @@ namespace MyZone.Server.Models.Domain.Books
         IResult IRepository<Book, Guid>.Update(Book entity)
         {
             throw new NotImplementedException();
+        }
+
+        int IRepository<Book, Guid>.SaveChanges()
+        {
+            return _context.SaveChanges();
         }
     }
 }

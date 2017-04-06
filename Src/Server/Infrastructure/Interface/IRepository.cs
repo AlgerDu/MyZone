@@ -61,5 +61,11 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <param name="key"></param>
         /// <returns></returns>
         TEntity GetByKey(KeyType key);
+
+        /// <summary>
+        /// 提交修改
+        /// </summary>
+        /// <returns></returns>
+        int SaveChanges();
     }
 }
