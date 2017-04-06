@@ -12,6 +12,7 @@ using MyZone.Server.Models.DataBase;
 using MyZone.Server;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 
 namespace Server
 {
@@ -46,6 +47,8 @@ namespace Server
                 {
                     jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
+
+            services.AddAutoMapper();
 
             // Create the Autofac container builder.
             var builder = new ContainerBuilder();
