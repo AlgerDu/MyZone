@@ -4,12 +4,19 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Infrastructure.Results;
+using MyZone.Server.Models.DataBase;
 
 namespace MyZone.Server.Models.Domain.Base
 {
+    /// <summary>
+    /// respository 基类
+    /// 定义一些基本操作，某些操作在一定条件下需要重载
+    /// </summary>
     public abstract class BaseRepository<TEntity, KeyType> : IRepository<TEntity, KeyType>
         where TEntity : class, IAggregateRoot<KeyType>
     {
+        protected MyZoneContext _context;
+
         protected DbSet<TEntity> _dbSet;
 
         public virtual IQueryable<TEntity> Entities
@@ -20,11 +27,10 @@ namespace MyZone.Server.Models.Domain.Base
             }
         }
 
-        IQueryable<TEntity> IRepository<TEntity, KeyType>.Entities => throw new NotImplementedException();
-
-        public BaseRepository(DbContext context)
+        public BaseRepository(MyZoneContext context)
         {
-            _dbSet = context.Set<TEntity>();
+            _context = context;
+            _dbSet = _context.Set<TEntity>();
         }
 
         public virtual IResult Delete(KeyType key)
@@ -34,72 +40,56 @@ namespace MyZone.Server.Models.Domain.Base
 
         public virtual IResult Delete(TEntity entity)
         {
-            return _dbSet.Remove(entity) != null ? Result.Success() : Result.Error();
+            var e = _dbSet.Remove(entity);
+            return e.State == EntityState.Deleted ? Result.Success() : Result.Error();
         }
 
         public virtual IBathOpsResult Delete(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            var r = new BathOpsResult(entities.LongCount());
+            var i = 0L;
+
+            foreach (var entity in entities)
+            {
+                r.AddResultItem(i++, Delete(entity));
+            }
+
+            return r;
         }
 
         public virtual TEntity GetByKey(KeyType key)
         {
-            throw new NotImplementedException();
+            return _dbSet.Find(key);
         }
 
         public virtual IResult Insert(TEntity entity)
         {
-            return _dbSet.Add(entity) != null ? Result.Success() : Result.Error();
+            var e = _dbSet.Add(entity);
+            return e.State == EntityState.Added ? Result.Success() : Result.Error();
         }
 
         public virtual IBathOpsResult Insert(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            var r = new BathOpsResult(entities.LongCount());
+            var i = 0L;
+
+            foreach (var entity in entities)
+            {
+                r.AddResultItem(i++, Insert(entity));
+            }
+
+            return r;
         }
 
         public virtual IResult Update(TEntity entity)
         {
-            return _dbSet.Update(entity) != null ? Result.Success() : Result.Error();
+            var e = _dbSet.Update(entity);
+            return e.State == EntityState.Modified ? Result.Success() : Result.Error();
         }
 
-        IResult IRepository<TEntity, KeyType>.Insert(TEntity entity)
+        public int SaveChanges()
         {
-            throw new NotImplementedException();
-        }
-
-        IBathOpsResult IRepository<TEntity, KeyType>.Insert(IEnumerable<TEntity> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        IResult IRepository<TEntity, KeyType>.Delete(KeyType key)
-        {
-            throw new NotImplementedException();
-        }
-
-        IResult IRepository<TEntity, KeyType>.Delete(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        IBathOpsResult IRepository<TEntity, KeyType>.Delete(IEnumerable<TEntity> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        IResult IRepository<TEntity, KeyType>.Update(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        TEntity IRepository<TEntity, KeyType>.GetByKey(KeyType key)
-        {
-            throw new NotImplementedException();
-        }
-
-        int IRepository<TEntity, KeyType>.SaveChanges()
-        {
-            throw new NotImplementedException();
+            return _context.SaveChanges();
         }
     }
 }
