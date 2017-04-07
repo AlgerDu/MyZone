@@ -15,7 +15,7 @@ namespace MyZone.Server.Models.Domain.Base
     public abstract class BaseRepository<TEntity, KeyType> : IRepository<TEntity, KeyType>
         where TEntity : class, IAggregateRoot<KeyType>
     {
-        protected MyZoneContext _context;
+        protected DbContext _context;
 
         protected DbSet<TEntity> _dbSet;
 
@@ -27,7 +27,7 @@ namespace MyZone.Server.Models.Domain.Base
             }
         }
 
-        public BaseRepository(MyZoneContext context)
+        public BaseRepository(DbContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();
