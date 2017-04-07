@@ -1,4 +1,6 @@
 using Autofac;
+using MyZone.Server.Infrastructure;
+using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models.Domain.Books;
 
 namespace MyZone.Server
@@ -7,7 +9,8 @@ namespace MyZone.Server
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<BookRepository>().As<IBookRepository>();
+            builder.RegisterType<BookRepository>().As<IBookRepository>().SingleInstance();
+            builder.RegisterType<FunnyLazyLoading>().As<IFunnyLazyLoading>().SingleInstance();
         }
     }
 }
