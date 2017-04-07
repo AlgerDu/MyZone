@@ -15,7 +15,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// <summary>
         /// item 在批量操作中顺序
         /// </summary>
-        public int Index { get; set; }
+        public long Index { get; set; }
 
         /// <summary>
         /// 返回消息
@@ -25,9 +25,9 @@ namespace MyZone.Server.Infrastructure.Results
 
     public class BathOpsResult : IBathOpsResult
     {
-        Dictionary<int, IBathOpsResultItem> _items = new Dictionary<int, IBathOpsResultItem>();
+        Dictionary<long, IBathOpsResultItem> _items = new Dictionary<long, IBathOpsResultItem>();
 
-        public int OpsCount { get; private set; }
+        public long OpsCount { get; private set; }
 
         public int Code
         {
@@ -59,7 +59,7 @@ namespace MyZone.Server.Infrastructure.Results
             }
         }
 
-        public BathOpsResult(int opsCount)
+        public BathOpsResult(long opsCount)
         {
             OpsCount = opsCount;
         }
@@ -68,7 +68,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// 添加成功项
         /// </summary>
         /// <param name="item"></param>
-        public void AddSuccessItem(int index, string msg = null)
+        public void AddSuccessItem(long index, string msg = null)
         {
             if (_items.ContainsKey(index))
             {
@@ -87,7 +87,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// 添加失败项
         /// </summary>
         /// <param name="item"></param>
-        public void AddErrorItem(int index, string msg = null)
+        public void AddErrorItem(long index, string msg = null)
         {
             if (_items.ContainsKey(index))
             {
@@ -98,6 +98,21 @@ namespace MyZone.Server.Infrastructure.Results
             item.Success = false;
             item.Index = index;
             item.Message = msg;
+
+            _items.Add(index, item);
+        }
+
+        public void AddResultItem(long index, IResult result)
+        {
+            if (_items.ContainsKey(index))
+            {
+                throw new Exception("MyZone.Server.Models.DTO.BathOpsResult 添加重复的 item，编号：" + index);
+            }
+
+            var item = new BathOpsResultItem();
+            item.Success = result.Code == 0;
+            item.Index = index;
+            item.Message = result.Message;
 
             _items.Add(index, item);
         }
@@ -113,7 +128,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// <summary>
         /// item 在批量操作中顺序
         /// </summary>
-        public int Index { get; set; }
+        public long Index { get; set; }
 
         /// <summary>
         /// 返回消息
@@ -129,9 +144,9 @@ namespace MyZone.Server.Infrastructure.Results
     public class BathOpsResult<T> : IBathOpsResult<T>
         where T : class
     {
-        Dictionary<int, IBathOpsResultItem<T>> _items = new Dictionary<int, IBathOpsResultItem<T>>();
+        Dictionary<long, IBathOpsResultItem<T>> _items = new Dictionary<long, IBathOpsResultItem<T>>();
 
-        public int OpsCount { get; private set; }
+        public long OpsCount { get; private set; }
 
         public int Code
         {
@@ -163,7 +178,7 @@ namespace MyZone.Server.Infrastructure.Results
             }
         }
 
-        public BathOpsResult(int opsCount)
+        public BathOpsResult(long opsCount)
         {
             OpsCount = opsCount;
         }
@@ -172,7 +187,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// 添加成功项
         /// </summary>
         /// <param name="item"></param>
-        public void AddSuccessItem(int index, string msg = null, T data = null)
+        public void AddSuccessItem(long index, string msg = null, T data = null)
         {
             if (_items.ContainsKey(index))
             {
@@ -192,7 +207,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// 添加失败项
         /// </summary>
         /// <param name="item"></param>
-        public void AddErrorItem(int index, string msg = null, T data = null)
+        public void AddErrorItem(long index, string msg = null, T data = null)
         {
             if (_items.ContainsKey(index))
             {
@@ -204,6 +219,22 @@ namespace MyZone.Server.Infrastructure.Results
             item.Index = index;
             item.Message = msg;
             item.Data = data;
+
+            _items.Add(index, item);
+        }
+
+        public void AddResultItem(long index, IResult<T> result)
+        {
+            if (_items.ContainsKey(index))
+            {
+                throw new Exception("MyZone.Server.Models.DTO.BathOpsResult 添加重复的 item，编号：" + index);
+            }
+
+            var item = new BathOpsResultItem<T>();
+            item.Success = result.Code == 0;
+            item.Index = index;
+            item.Message = result.Message;
+            item.Data = result.Data;
 
             _items.Add(index, item);
         }

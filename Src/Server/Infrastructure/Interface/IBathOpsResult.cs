@@ -16,7 +16,7 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <summary>
         /// item 在批量操作中顺序
         /// </summary>
-        int Index { get; }
+        long Index { get; }
 
         /// <summary>
         /// 返回消息
@@ -32,7 +32,7 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <summary>
         /// 操作的总数
         /// </summary>
-        int OpsCount { get; }
+        long OpsCount { get; }
 
         /// <summary>
         /// 操作结果
@@ -53,7 +53,7 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <summary>
         /// item 在批量操作中顺序
         /// </summary>
-        int Index { get; }
+        long Index { get; }
 
         /// <summary>
         /// 返回消息
@@ -75,7 +75,7 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <summary>
         /// 操作的总数
         /// </summary>
-        int OpsCount { get; }
+        long OpsCount { get; }
 
         /// <summary>
         /// 操作结果
