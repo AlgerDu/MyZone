@@ -1,4 +1,7 @@
 using AutoMapper;
+using System.Linq;
+using MyZone.Server.Models.DataBase;
+using MyZone.Server.Models.DTO.NovelCrawl;
 
 namespace MyZone.Server.Mapper
 {
@@ -6,6 +9,11 @@ namespace MyZone.Server.Mapper
     {
         public DomainToViewModelMappingProfile()
         {
+            CreateMap<Chapter, NovelCatalogChapterModel>();
+            CreateMap<Volume, NovelCatalogVolumeModel>();
+            CreateMap<Book, NovelCatalogModel>()
+                .ForMember(d => d.Cs, op => op.MapFrom(s => s.Chapter.OrderBy(c => c.VolumeNo).ThenBy(c => c.VolumeIndex)))
+                .ForMember(d => d.Vs, op => op.MapFrom(s => s.Volume.OrderBy(v => v.No)));
         }
     }
 }

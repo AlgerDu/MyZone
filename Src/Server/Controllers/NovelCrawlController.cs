@@ -21,10 +21,17 @@ namespace MyZone.Server.Controllers
     public class NovelCrawlController : Controller
     {
         ILogger _logger;
+        IFunnyLazyLoading _lazy;
+        IMapper _mapper;
 
-        public NovelCrawlController(ILogger<NovelCrawlController> logger)
+        public NovelCrawlController(
+            ILogger<NovelCrawlController> logger
+            , IFunnyLazyLoading lazy
+            , IMapper mapper)
         {
             _logger = logger;
+            _lazy = lazy;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -171,49 +178,20 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public IResult<NovelCrawlCatalogDTO> NovelCatalog(
-            [FromServices]MyZoneContext context,
-            [FromServices]IBookRepository bookRepository,
-            Guid uid)
+        public IResult<NovelCatalogModel> NovelCatalog(
+            [FromServices]IBookRepository bookRepository
+            , Guid uid)
         {
-            var catalog = new NovelCrawlCatalogDTO();
-
-            var b2 = bookRepository.GetByKey(uid);
-
-            var book = context.Book
-                .Include(b => b.Volume)
-                .Include(b => b.Chapter)
-                .FirstOrDefault(b => b.Uid == uid);
+            var book = bookRepository.GetByKey(uid);
 
             if (book == null)
             {
-                return Result.Error<NovelCrawlCatalogDTO>("书籍不存在");
+                return Result.Error<NovelCatalogModel>("书籍不存在");
             }
 
-            catalog.Vs = book.Volume
-                .Select(v => new NovelCrawlVolumeDTO
-                {
-                    No = v.No,
-                    Name = v.Name
-                })
-                .OrderBy(v => v.No)
-                .ToArray();
+            _lazy.LoadBookCatalog(book);
 
-            catalog.Cs = book.Chapter
-                .Select(c => new NovelCrawlChapterDTO
-                {
-                    Uid = c.Uid,
-                    VolumeNo = c.VolumeNo,
-                    VolumeIndex = c.VolumeIndex,
-                    Name = c.Name,
-                    WordCount = c.WordCount,
-                    PublishTime = c.PublishTime,
-                    Vip = c.Vip,
-                    NeedCrawl = c.NeedCrawl
-                })
-                .OrderBy(c => c.VolumeNo)
-                .ThenBy(c => c.VolumeIndex)
-                .ToArray();
+            var catalog = _mapper.Map<NovelCatalogModel>(book);
 
             return Result.Success(catalog);
         }

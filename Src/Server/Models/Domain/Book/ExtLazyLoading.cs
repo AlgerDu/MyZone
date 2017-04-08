@@ -1,3 +1,4 @@
+using System.Linq;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models.DataBase;
 
