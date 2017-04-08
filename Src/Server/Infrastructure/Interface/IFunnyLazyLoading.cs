@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace MyZone.Server.Infrastructure.Interface
 {
     /// <summary>
@@ -6,6 +8,6 @@ namespace MyZone.Server.Infrastructure.Interface
     /// </summary>
     public interface IFunnyLazyLoading
     {
-
+        DbContext Context { get; }
     }
 }

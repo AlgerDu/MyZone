@@ -11,7 +11,7 @@ namespace MyZone.Server.Models.Domain.Books
 {
     public class BookRepository : BaseRepository<Book, Guid>, IBookRepository
     {
-        public BookRepository(DbContext contex) : base(contex)
+        public BookRepository(MyZoneContext contex) : base(contex)
         { }
     }
 }
