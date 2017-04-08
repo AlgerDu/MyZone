@@ -8,7 +8,7 @@ namespace MyZone.Server.Mapper
     {
         public ViewModelToDomainMappingProfile()
         {
-            CreateMap<NovelInfoDTO, Book>();
+            CreateMap<NovelAddModel, Book>();
         }
     }
 }

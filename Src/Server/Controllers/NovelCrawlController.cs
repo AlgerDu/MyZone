@@ -23,15 +23,18 @@ namespace MyZone.Server.Controllers
         ILogger _logger;
         IFunnyLazyLoading _lazy;
         IMapper _mapper;
+        IBookRepository _bookRepository;
 
         public NovelCrawlController(
             ILogger<NovelCrawlController> logger
+            , IBookRepository bookRepository
             , IFunnyLazyLoading lazy
             , IMapper mapper)
         {
             _logger = logger;
             _lazy = lazy;
             _mapper = mapper;
+            _bookRepository = bookRepository;
         }
 
         /// <summary>
@@ -40,28 +43,24 @@ namespace MyZone.Server.Controllers
         /// <param name="novels"></param>
         /// <returns></returns>
         public IBathOpsResult<string> AddNovels(
-            [FromServices]MyZoneContext context,
-            [FromServices]IMapper mapper,
-            [FromBody]NovelInfoDTO[] novels)
+            [FromServices]BookFactory bookFactory,
+            [FromBody]NovelAddModel[] novels)
         {
             var result = new BathOpsResult<string>(novels.Length);
 
-            for (int i = 0; i < novels.Length; i++)
+            var index = 0L;
+
+            foreach (var novle in novels)
             {
-                var newBook = mapper.Map<Book>(novels[i]);
-                newBook.Uid = Guid.NewGuid();
-                // var novel = novels[i];
-                // var book = new Book();
-                // book.Uid = Guid.NewGuid();
-                // book.Name = novel.Name;
-                // book.Author = novel.Author;
+                var book = bookFactory.CreateNovel(novle);
 
-                context.Book.Add(newBook);
-
-                result.AddSuccessItem(i, null, newBook.Uid.ToString());
+                if (_bookRepository.Insert(book).Code == 0)
+                    result.AddSuccessItem(index++, null, book.Uid.ToString());
+                else
+                    result.AddErrorItem(index++, "添加失败");
             }
 
-            context.SaveChanges();
+            _bookRepository.SaveChanges();
 
             return result;
         }
@@ -179,10 +178,9 @@ namespace MyZone.Server.Controllers
         /// <param name="uid"></param>
         /// <returns></returns>
         public IResult<NovelCatalogModel> NovelCatalog(
-            [FromServices]IBookRepository bookRepository
-            , Guid uid)
+             Guid uid)
         {
-            var book = bookRepository.GetByKey(uid);
+            var book = _bookRepository.GetByKey(uid);
 
             if (book == null)
             {

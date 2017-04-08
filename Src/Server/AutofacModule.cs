@@ -11,6 +11,8 @@ namespace MyZone.Server
         {
             builder.RegisterType<BookRepository>().As<IBookRepository>().SingleInstance();
             builder.RegisterType<FunnyLazyLoading>().As<IFunnyLazyLoading>().SingleInstance();
+
+            builder.RegisterType<BookFactory>().SingleInstance();
         }
     }
 }
