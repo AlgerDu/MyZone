@@ -1,12 +1,15 @@
 using System;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyZone.Server.Infrastructure.Helpers;
 using MyZone.Server.Infrastructure.Interface;
+using MyZone.Server.Infrastructure.Results;
 using MyZone.Server.Models;
 using MyZone.Server.Models.DataBase;
+using MyZone.Server.Models.Domain.Books;
 using MyZone.Server.Models.DTO;
 using MyZone.Server.Models.DTO.NovelCrawl;
 
@@ -18,10 +21,20 @@ namespace MyZone.Server.Controllers
     public class NovelCrawlController : Controller
     {
         ILogger _logger;
+        IFunnyLazyLoading _lazy;
+        IMapper _mapper;
+        IBookRepository _bookRepository;
 
-        public NovelCrawlController(ILogger<NovelCrawlController> logger)
+        public NovelCrawlController(
+            ILogger<NovelCrawlController> logger
+            , IBookRepository bookRepository
+            , IFunnyLazyLoading lazy
+            , IMapper mapper)
         {
             _logger = logger;
+            _lazy = lazy;
+            _mapper = mapper;
+            _bookRepository = bookRepository;
         }
 
         /// <summary>
@@ -30,25 +43,24 @@ namespace MyZone.Server.Controllers
         /// <param name="novels"></param>
         /// <returns></returns>
         public IBathOpsResult<string> AddNovels(
-            [FromServices]MyZoneContext context,
-            [FromBody]NovelInfoDTO[] novels)
+            [FromServices]BookFactory bookFactory,
+            [FromBody]NovelAddModel[] novels)
         {
             var result = new BathOpsResult<string>(novels.Length);
 
-            for (int i = 0; i < novels.Length; i++)
+            var index = 0L;
+
+            foreach (var novle in novels)
             {
-                var novel = novels[i];
-                var book = new Book();
-                book.Uid = Guid.NewGuid();
-                book.Name = novel.Name;
-                book.Author = novel.Author;
+                var book = bookFactory.CreateNovel(novle);
 
-                context.Book.Add(book);
-
-                result.AddSuccessItem(i, null, book.Uid.ToString());
+                if (_bookRepository.Insert(book).Code == 0)
+                    result.AddSuccessItem(index++, null, book.Uid.ToString());
+                else
+                    result.AddErrorItem(index++, "添加失败");
             }
 
-            context.SaveChanges();
+            _bookRepository.SaveChanges();
 
             return result;
         }
@@ -165,48 +177,21 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public IDResult<NovelCrawlCatalogDTO> NovelCatalog(
-            [FromServices]MyZoneContext context,
-            Guid uid)
+        public IResult<NovelCatalogModel> NovelCatalog(
+             Guid uid)
         {
-            var catalog = new NovelCrawlCatalogDTO();
-
-            var book = context.Book
-                .Include(b => b.Volume)
-                .Include(b => b.Chapter)
-                .FirstOrDefault(b => b.Uid == uid);
+            var book = _bookRepository.GetByKey(uid);
 
             if (book == null)
             {
-                return DResult.Error<NovelCrawlCatalogDTO>("书籍不存在");
+                return Result.Error<NovelCatalogModel>("书籍不存在");
             }
 
-            catalog.Vs = book.Volume
-                .Select(v => new NovelCrawlVolumeDTO
-                {
-                    No = v.No,
-                    Name = v.Name
-                })
-                .OrderBy(v => v.No)
-                .ToArray();
+            _lazy.LoadBookCatalog(book);
 
-            catalog.Cs = book.Chapter
-                .Select(c => new NovelCrawlChapterDTO
-                {
-                    Uid = c.Uid,
-                    VolumeNo = c.VolumeNo,
-                    VolumeIndex = c.VolumeIndex,
-                    Name = c.Name,
-                    WordCount = c.WordCount,
-                    PublishTime = c.PublishTime,
-                    Vip = c.Vip,
-                    NeedCrawl = c.NeedCrawl
-                })
-                .OrderBy(c => c.VolumeNo)
-                .ThenBy(c => c.VolumeIndex)
-                .ToArray();
+            var catalog = _mapper.Map<NovelCatalogModel>(book);
 
-            return DResult.Success(catalog);
+            return Result.Success(catalog);
         }
 
         /// <summary>
@@ -215,34 +200,28 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="volume"></param>
         /// <returns></returns>
-        public IDResult UploadVolume(
-            [FromServices]MyZoneContext context,
-            [FromBody]VolumeUploadDTO volume)
+        public IResult UploadVolume(
+            [FromBody]VolumeUploadModel volume)
         {
-            var book = context.Book
-                .Include(b => b.Volume)
-                .FirstOrDefault(b => b.Uid == volume.BookUid);
+            var book = _bookRepository.GetByKey(volume.BookUid);
 
             if (book == null)
             {
-                return DResult.Error("书籍不存在");
-            }
-            else if (book.Volume.FirstOrDefault(v => v.No == volume.No) != null)
-            {
-                return DResult.Error("存在相同编号的卷信息");
+                return Result.Error("书籍不存在");
             }
             else
             {
-                book.Volume.Add(new Volume
+                _lazy.LoadBookCatalog(book);
+
+                var r = book.AddVolume(_mapper.Map<Volume>(volume));
+
+                if (r.Code == 0)
                 {
-                    BookUid = volume.BookUid,
-                    No = volume.No,
-                    Name = volume.Name
-                });
+                    _bookRepository.Update(book);
+                    _bookRepository.SaveChanges();
+                }
 
-                context.SaveChanges();
-
-                return DResult.Success();
+                return r;
             }
         }
 
@@ -252,39 +231,28 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="chapter"></param>
         /// <returns></returns>
-        public IDResult UploadChapter(
-            [FromServices]MyZoneContext context,
-            [FromBody]ChapterUploadDTO chapter)
+        public IResult UploadChapter(
+            [FromBody]ChapterUploadModel chapter)
         {
-            var book = context.Book
-                .Include(b => b.Chapter)
-                .FirstOrDefault(b => b.Uid == chapter.BookUid);
+            var book = _bookRepository.GetByKey(chapter.BookUid);
 
             if (book == null)
             {
-                return DResult.Error("书籍不存在");
-            }
-            else if (book.Chapter.FirstOrDefault(c => c.VolumeNo == chapter.VolumeNo && c.VolumeIndex == chapter.VolumeIndex) != null)
-            {
-                return DResult.Error("存在相同的章节信息");
+                return Result.Error("书籍不存在");
             }
             else
             {
-                book.Chapter.Add(new Chapter
-                {
-                    Uid = chapter.Uid,
-                    BookUid = chapter.BookUid,
-                    Name = chapter.Name,
-                    VolumeNo = chapter.VolumeNo,
-                    VolumeIndex = chapter.VolumeIndex,
-                    PublishTime = chapter.PublishTime,
-                    Vip = chapter.Vip,
-                    WordCount = chapter.WordCount,
-                    NeedCrawl = true
-                });
+                _lazy.LoadBookCatalog(book);
 
-                context.SaveChanges();
-                return DResult.Success();
+                var r = book.AddChapter(_mapper.Map<Chapter>(chapter));
+
+                if (r.Code == 0)
+                {
+                    _bookRepository.Update(book);
+                    _bookRepository.SaveChanges();
+                }
+
+                return r;
             }
         }
 
@@ -294,7 +262,7 @@ namespace MyZone.Server.Controllers
         /// <param name="context"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public IDResult UploadChapterText(
+        public IResult UploadChapterText(
             [FromServices]MyZoneContext context,
             [FromBody]ChapterTextUploadDTO text)
         {
@@ -303,11 +271,11 @@ namespace MyZone.Server.Controllers
 
             if (chapter == null)
             {
-                return DResult.Error("章节信息不存在");
+                return Result.Error("章节信息不存在");
             }
             else if (!chapter.NeedCrawl)
             {
-                return DResult.Error("章节不需要重新爬取");
+                return Result.Error("章节不需要重新爬取");
             }
             else
             {
@@ -322,18 +290,18 @@ namespace MyZone.Server.Controllers
                 };
 
                 context.SaveChanges();
-                return DResult.Success();
+                return Result.Success();
             }
         }
 
-        public IDResult<NovelCrawl[]> BookCrawlUrl(
+        public IResult<NovelCrawl[]> BookCrawlUrl(
             [FromServices]MyZoneContext context,
             Guid uid)
         {
             var urls = context.NovelCrawl
                 .Where(nc => nc.BookUid == uid);
 
-            return DResult.Success(urls.ToArray());
+            return Result.Success(urls.ToArray());
         }
     }
 }

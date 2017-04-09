@@ -1,9 +1,9 @@
 namespace MyZone.Server.Models.DTO.NovelCrawl
 {
     /// <summary>
-    /// 用来新增需要爬取的小说
+    /// 添加小说类书籍使用
     /// </summary>
-    public class NovelInfoDTO
+    public class NovelAddModel
     {
         /// <summary>
         /// 小说名称
