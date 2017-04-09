@@ -36,5 +36,23 @@ namespace MyZone.Server.Models.DataBase
                 return Result.Success();
             }
         }
+
+        /// <summary>
+        /// 添加新的章节信息
+        /// </summary>
+        /// <param name="newChapter"></param>
+        /// <returns></returns>
+        public IResult AddChapter(Chapter newChapter)
+        {
+            if (Chapter.FirstOrDefault(c => c.VolumeNo == newChapter.VolumeNo && c.VolumeIndex == newChapter.VolumeIndex) != null)
+            {
+                return Result.Error("相同编号的章节信息已经存在");
+            }
+            else
+            {
+                Chapter.Add(newChapter);
+                return Result.Success();
+            }
+        }
     }
 }

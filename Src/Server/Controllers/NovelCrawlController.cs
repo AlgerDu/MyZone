@@ -232,38 +232,27 @@ namespace MyZone.Server.Controllers
         /// <param name="chapter"></param>
         /// <returns></returns>
         public IResult UploadChapter(
-            [FromServices]MyZoneContext context,
-            [FromBody]ChapterUploadDTO chapter)
+            [FromBody]ChapterUploadModel chapter)
         {
-            var book = context.Book
-                .Include(b => b.Chapter)
-                .FirstOrDefault(b => b.Uid == chapter.BookUid);
+            var book = _bookRepository.GetByKey(chapter.BookUid);
 
             if (book == null)
             {
                 return Result.Error("书籍不存在");
             }
-            else if (book.Chapter.FirstOrDefault(c => c.VolumeNo == chapter.VolumeNo && c.VolumeIndex == chapter.VolumeIndex) != null)
-            {
-                return Result.Error("存在相同的章节信息");
-            }
             else
             {
-                book.Chapter.Add(new Chapter
-                {
-                    Uid = chapter.Uid,
-                    BookUid = chapter.BookUid,
-                    Name = chapter.Name,
-                    VolumeNo = chapter.VolumeNo,
-                    VolumeIndex = chapter.VolumeIndex,
-                    PublishTime = chapter.PublishTime,
-                    Vip = chapter.Vip,
-                    WordCount = chapter.WordCount,
-                    NeedCrawl = true
-                });
+                _lazy.LoadBookCatalog(book);
 
-                context.SaveChanges();
-                return Result.Success();
+                var r = book.AddChapter(_mapper.Map<Chapter>(chapter));
+
+                if (r.Code == 0)
+                {
+                    _bookRepository.Update(book);
+                    _bookRepository.SaveChanges();
+                }
+
+                return r;
             }
         }
 

@@ -10,6 +10,7 @@ namespace MyZone.Server.Mapper
         {
             CreateMap<NovelAddModel, Book>();
             CreateMap<VolumeUploadModel, Volume>();
+            CreateMap<ChapterUploadModel, Chapter>();
         }
     }
 }
