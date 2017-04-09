@@ -5,7 +5,7 @@ namespace MyZone.Server.Models.DTO.NovelCrawl
     /// <summary>
     /// 上传小说卷信息
     /// </summary>
-    public class VolumeUploadDTO
+    public class VolumeUploadModel
     {
         /// <summary>
         /// 小说 UID

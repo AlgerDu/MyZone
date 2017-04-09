@@ -201,33 +201,27 @@ namespace MyZone.Server.Controllers
         /// <param name="volume"></param>
         /// <returns></returns>
         public IResult UploadVolume(
-            [FromServices]MyZoneContext context,
-            [FromBody]VolumeUploadDTO volume)
+            [FromBody]VolumeUploadModel volume)
         {
-            var book = context.Book
-                .Include(b => b.Volume)
-                .FirstOrDefault(b => b.Uid == volume.BookUid);
+            var book = _bookRepository.GetByKey(volume.BookUid);
 
             if (book == null)
             {
                 return Result.Error("书籍不存在");
             }
-            else if (book.Volume.FirstOrDefault(v => v.No == volume.No) != null)
-            {
-                return Result.Error("存在相同编号的卷信息");
-            }
             else
             {
-                book.Volume.Add(new Volume
+                _lazy.LoadBookCatalog(book);
+
+                var r = book.AddVolume(_mapper.Map<Volume>(volume));
+
+                if (r.Code == 0)
                 {
-                    BookUid = volume.BookUid,
-                    No = volume.No,
-                    Name = volume.Name
-                });
+                    _bookRepository.Update(book);
+                    _bookRepository.SaveChanges();
+                }
 
-                context.SaveChanges();
-
-                return Result.Success();
+                return r;
             }
         }
 

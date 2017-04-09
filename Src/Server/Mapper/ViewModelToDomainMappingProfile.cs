@@ -9,6 +9,7 @@ namespace MyZone.Server.Mapper
         public ViewModelToDomainMappingProfile()
         {
             CreateMap<NovelAddModel, Book>();
+            CreateMap<VolumeUploadModel, Volume>();
         }
     }
 }
