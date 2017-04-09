@@ -50,7 +50,7 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <returns></returns>
         long PageIndex { get; }
 
-        IEnumerable<ISearchFilter> Filters { get; }
+        IEnumerable<ISearchFilter> FilterItems { get; }
     }
 
     public interface ISearchResult<T> : IResult
