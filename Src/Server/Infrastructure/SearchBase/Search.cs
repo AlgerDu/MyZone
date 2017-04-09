@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MyZone.Server.Infrastructure.Interface;
 
-namespace MyZone.Server.Infrastructure.Results
+namespace MyZone.Server.Infrastructure.SearchBase
 {
     public class SearchFilter : ISearchFilter
     {
@@ -23,6 +23,14 @@ namespace MyZone.Server.Infrastructure.Results
 
         public IEnumerable<ISearchFilter> FilterItems { get; set; }
 
+        public long SkipCount
+        {
+            get
+            {
+                return PageSize * (PageIndex - 1);
+            }
+        }
+
         public SerachCondition()
         {
             FilterItems = new List<SearchFilter>();
@@ -32,16 +40,35 @@ namespace MyZone.Server.Infrastructure.Results
     public class SearchResult<T> : ISearchResult<T>
         where T : class
     {
+        IList<T> _data;
+
         public long PageSize { get; set; }
 
         public long PageIndex { get; set; }
 
-        public long RecoderCount { get; set; }
+        public long RecoderCount { get; private set; }
 
-        public IEnumerable<T> Data { get; set; }
+        public IEnumerable<T> Data
+        {
+            get
+            {
+                return _data;
+            }
+        }
 
         public int Code { get; set; }
 
         public string Message { get; set; }
+
+        public SearchResult(long recoderCount)
+        {
+            RecoderCount = recoderCount;
+            _data = new List<T>();
+        }
+
+        public void AddRecord(T record)
+        {
+            _data.Add(record);
+        }
     }
 }
