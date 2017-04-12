@@ -61,13 +61,15 @@ namespace MyZone.Server.Controllers
                                 .Where(c => c.PublishTime > info.UpdateTime)
                                 .Count();
 
+                var lastChapter = book.Chapter
+                            .OrderByDescending(c => c.VolumeNo)
+                            .ThenByDescending(c => c.VolumeIndex)
+                            .FirstOrDefault();
+
+                updateInfo.UpdateTime = lastChapter.PublishTime;
+
                 if (updateInfo.ChapterCount > 0)
                 {
-                    var lastChapter = book.Chapter
-                                .OrderByDescending(c => c.VolumeNo)
-                                .ThenByDescending(c => c.VolumeIndex)
-                                .FirstOrDefault();
-
                     updateInfo.LastChapter = _mapper.Map<LastChapterModel>(lastChapter);
                 }
 
