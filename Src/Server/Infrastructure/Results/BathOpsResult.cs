@@ -187,7 +187,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// 添加成功项
         /// </summary>
         /// <param name="item"></param>
-        public void AddSuccessItem(long index, string msg = null, T data = null)
+        public void AddSuccessItem(long index, T data = null, string msg = null)
         {
             if (_items.ContainsKey(index))
             {
