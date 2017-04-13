@@ -3,7 +3,6 @@ using System.Linq;
 using MyZone.Server.Models.DataBase;
 using MyZone.Server.Models.DTO.NovelCrawl;
 using MyZone.Server.Models.DTO.BookStore;
-using MyZone.Server.Models.DTO.Novel;
 
 namespace MyZone.Server.Mapper
 {
@@ -18,10 +17,6 @@ namespace MyZone.Server.Mapper
                 .ForMember(d => d.Vs, op => op.MapFrom(s => s.Volume.OrderBy(v => v.No)));
             CreateMap<Book, NovelStoreInfoModel>()
                 .ForMember(d => d.ChapterCount, op => op.MapFrom(s => s.Chapter.Count()));
-
-            //NovelController
-            // CreateMap<Book, NovelUpdateModel>();
-            CreateMap<Chapter, LastChapterModel>();
         }
     }
 }

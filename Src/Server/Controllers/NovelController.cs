@@ -78,5 +78,57 @@ namespace MyZone.Server.Controllers
 
             return result;
         }
+
+        /// <summary>
+        /// 获取小说某个章节前后的章节信息
+        /// </summary>
+        /// <param name="queryInfo"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IResult<NovelCatalogModel> Catalog(
+            [FromBody]NovelCatalogQueryModel queryInfo
+        )
+        {
+            var book = _bookRepository.GetByKey(queryInfo.BookUid);
+
+            if (book == null)
+            {
+                return Result.Error<NovelCatalogModel>("小说不存在");
+            }
+
+            _lazy.LoadBookCatalog(book);
+
+            var cs = book.Chapter;
+
+            var forward = cs.OrderByDescending(c => c.VolumeNo)
+                            .ThenByDescending(c => c.VolumeIndex)
+                     .Where(c => (c.VolumeNo == queryInfo.VolumeNo && c.VolumeIndex <= queryInfo.VolumeIndex) || c.VolumeNo < queryInfo.VolumeNo);
+
+            if (queryInfo.ForwardCount > -1)
+                forward = forward.Take(queryInfo.ForwardCount);
+
+            var backward = cs.OrderBy(c => c.VolumeNo)
+                             .ThenBy(c => c.VolumeIndex)
+                     .Where(c => (c.VolumeNo == queryInfo.VolumeNo && c.VolumeIndex >= queryInfo.VolumeIndex) || c.VolumeNo > queryInfo.VolumeNo);
+
+            if (queryInfo.BackwardCount > -1)
+                backward = backward.Take(queryInfo.BackwardCount);
+
+            var all = backward.Concat(forward);
+            all = all.OrderByDescending(c => c.VolumeNo)
+                            .ThenByDescending(c => c.VolumeIndex);
+
+            var vs = from v in book.Volume
+                     from vNo in all.Select(c => c.VolumeNo).Distinct()
+                     where v.No == vNo
+                     select v;
+
+            var data = new NovelCatalogModel();
+
+            data.Vs = _mapper.Map<VolumeModel[]>(vs);
+            data.Cs = _mapper.Map<ChapterModel[]>(all);
+
+            return Result.Success(data);
+        }
     }
 }

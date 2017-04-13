@@ -13,6 +13,8 @@ namespace MyZone.Server.Mapper
             {
                 cfg.AddProfile(new DomainToViewModelMappingProfile());
                 cfg.AddProfile(new ViewModelToDomainMappingProfile());
+
+                cfg.AddProfile(new Models.DTO.Novel.MappingProfile());
             });
         }
     }
