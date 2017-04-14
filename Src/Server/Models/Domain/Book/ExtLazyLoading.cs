@@ -16,5 +16,17 @@ namespace MyZone.Server.Models.Domain.Books
                 .Collection(b => b.Volume)
                 .Load();
         }
+
+        /// <summary>
+        /// 加载 chapter 的 content 数据
+        /// </summary>
+        /// <param name="lazy"></param>
+        /// <param name="chapter"></param>
+        public static void LoadChapterContent(this IFunnyLazyLoading lazy, Chapter chapter)
+        {
+            lazy.Context.Entry(chapter)
+                    .Reference(c => c.ContextU)
+                    .Load();
+        }
     }
 }
