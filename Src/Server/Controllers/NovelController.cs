@@ -130,5 +130,32 @@ namespace MyZone.Server.Controllers
 
             return Result.Success(data);
         }
+
+        /// <summary>
+        /// 获取章节的正文信息
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IResult<ChapterTextModel> ChapterText(
+            [FromBody]CHapterTextQueryModel query
+        )
+        {
+            var book = _bookRepository.GetByKey(query.BookUid);
+
+            if (book == null) Result.Error("书籍不存在");
+
+            _lazy.LoadBookCatalog(book);
+
+            var chapter = book.GetChapter(query.VolumeNo, query.VolumeIndex);
+
+            if (chapter == null) Result.Error("书籍的章节不存在");
+
+            _lazy.LoadChapterContent(chapter);
+
+            if (chapter.ContextU == null) Result.Error("尚未收录章节正文内容");
+
+            return Result.Success(_mapper.Map<ChapterTextModel>(chapter.ContextU));
+        }
     }
 }

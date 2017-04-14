@@ -54,5 +54,16 @@ namespace MyZone.Server.Models.DataBase
                 return Result.Success();
             }
         }
+
+        /// <summary>
+        /// 获取书籍的某个章节
+        /// </summary>
+        /// <param name="volumeNo"></param>
+        /// <param name="volumeIndex"></param>
+        /// <returns></returns>
+        public Chapter GetChapter(int volumeNo, int volumeIndex)
+        {
+            return Chapter.FirstOrDefault(c => c.VolumeNo == volumeNo && c.VolumeIndex == volumeIndex);
+        }
     }
 }

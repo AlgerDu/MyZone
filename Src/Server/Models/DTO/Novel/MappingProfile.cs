@@ -14,6 +14,8 @@ namespace MyZone.Server.Models.DTO.Novel
 
             CreateMap<Chapter, ChapterModel>();
             CreateMap<Volume, VolumeModel>();
+
+            CreateMap<Content, ChapterTextModel>();
         }
     }
 }
