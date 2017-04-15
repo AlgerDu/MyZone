@@ -72,7 +72,7 @@ namespace MyZone.Server.Infrastructure.Interface
         /// 总记录数
         /// </summary>
         /// <returns></returns>
-        long RecoderCount { get; }
+        long RecodCount { get; }
 
         /// <summary>
         /// 列表数据

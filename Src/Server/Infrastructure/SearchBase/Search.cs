@@ -46,7 +46,7 @@ namespace MyZone.Server.Infrastructure.SearchBase
 
         public long PageIndex { get; set; }
 
-        public long RecoderCount { get; private set; }
+        public long RecodCount { get; private set; }
 
         public IEnumerable<T> Data
         {
@@ -62,7 +62,7 @@ namespace MyZone.Server.Infrastructure.SearchBase
 
         public SearchResult(long recoderCount)
         {
-            RecoderCount = recoderCount;
+            RecodCount = recoderCount;
             _data = new List<T>();
         }
 
