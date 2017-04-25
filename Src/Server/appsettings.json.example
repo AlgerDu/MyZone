@@ -1,0 +1,11 @@
+﻿{
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "Default": "Host=localhost;Database=MyZone;Username=user;Password=psww"
+  }
+}

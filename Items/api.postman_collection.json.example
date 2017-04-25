@@ -1,0 +1,408 @@
+{
+	"variables": [],
+	"info": {
+		"name": "NyZone(个人网站) api 设计",
+		"_postman_id": "7b999489-9ed4-06ff-fbde-003892901de6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BookStoreController",
+			"description": "",
+			"item": [
+				{
+					"name": "Novel",
+					"request": {
+						"url": "{{host}}/BookStore/Novel",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"pageSize\":3,\n\t\"pageIndex\":1\n}"
+						},
+						"description": "获取小说信息列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CrawlController",
+			"description": "",
+			"item": [
+				{
+					"name": "PageParseCode",
+					"request": {
+						"url": "{{host}}/Crawl/PageParseCode",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\":\"http://read.qidian.com\",\n\t\"type\":\"43\"\n}"
+						},
+						"description": "获取某个页面的处理代码"
+					},
+					"response": []
+				},
+				{
+					"name": "AddParsePage",
+					"request": {
+						"url": "{{host}}/Crawl/AddParsePage",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"url\":\"http://read.qidian.com\",\n\t\t\"sSCriptCode\":\"var c:object\\nc.Name = $('div.main-text-wrap h3.j_chapterName').text\\nc.Text = $('div.main-text-wrap div.read-content').html\\nreturn c\",\n\t\t\"minLength\":-1,\n\t\t\"isCommon\":true,\n\t\t\"type\":43\n\t},\n\t{\n\t\t\"url\":\"http://www.biquge.tw\",\n\t\t\"sSCriptCode\":\"var c:object\\nc.Name = $('div.bookname h1').text\\nc.Text = $('#content').html.remove('<script[^>]*?>.*?</script>|<div align=[^>]*?>.*</div>')\\nreturn c\",\n\t\t\"minLength\":-1,\n\t\t\"isCommon\":true,\n\t\t\"type\":43\n\t}\n]"
+						},
+						"description": "添加页面处理代码"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NovelController",
+			"description": "",
+			"item": [
+				{
+					"name": "Update",
+					"request": {
+						"url": "{{host}}/Novel/Update",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"bookUid\":\"6a4cd19a-77f5-4601-ad87-7e23653f00dc\",\n\t\t\"updateTime\":\"2017/04/01\"\n\t}\t\n]"
+						},
+						"description": "获取小说的更新信息"
+					},
+					"response": []
+				},
+				{
+					"name": "Catalog",
+					"request": {
+						"url": "{{host}}/Novel/Catalog",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"bookUid\":\"6a4cd19a-77f5-4601-ad87-7e23653f00dc\",\n\t\"volumeNo\":2,\n\t\"volumeIndex\":3,\n\t\"forwardCount\": -1,\n\t\"backwardCount\":3\n}"
+						},
+						"description": "获取小说目录"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NovelCrawlController",
+			"description": "小说爬去相关",
+			"item": [
+				{
+					"name": "AddNovels",
+					"request": {
+						"url": "{{host}}/NovelCrawl/AddNovels",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\"name\":\"择天记\",\"author\":\"猫腻\"}\n]"
+						},
+						"description": "添加需要爬去的小说"
+					},
+					"response": [
+						{
+							"id": "d74db644-81fd-45fb-aa46-7d79f2d0c506",
+							"name": "success",
+							"originalRequest": {
+								"url": "http://localhost:5000/NovelCrawl/AddNovels",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										"[",
+										"\n",
+										"\t",
+										"{",
+										"\"",
+										"n",
+										"a",
+										"m",
+										"e",
+										"\"",
+										":",
+										"\"",
+										"修",
+										"真",
+										"聊",
+										"天",
+										"群",
+										"\"",
+										",",
+										"\"",
+										"a",
+										"u",
+										"t",
+										"h",
+										"o",
+										"r",
+										"\"",
+										":",
+										"\"",
+										"圣",
+										"骑",
+										"士",
+										"的",
+										"传",
+										"说",
+										"\"",
+										"}",
+										",",
+										"\n",
+										"\t",
+										"{",
+										"\"",
+										"n",
+										"a",
+										"m",
+										"e",
+										"\"",
+										":",
+										"\"",
+										"神",
+										"级",
+										"英",
+										"雄",
+										"\"",
+										",",
+										"\"",
+										"a",
+										"u",
+										"t",
+										"h",
+										"o",
+										"r",
+										"\"",
+										":",
+										"\"",
+										"大",
+										"烟",
+										"缸",
+										"\"",
+										"}",
+										"\n",
+										"]"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "Content-Type",
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "Date",
+									"key": "Date",
+									"value": "Sun, 26 Mar 2017 09:26:54 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "Server",
+									"key": "Server",
+									"value": "Kestrel",
+									"description": "A name for the server"
+								},
+								{
+									"name": "Transfer-Encoding",
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 2165,
+							"body": "{\"opsCount\":2,\"code\":0,\"items\":[{\"success\":true,\"index\":0,\"data\":\"6a4cd19a-77f5-4601-ad87-7e23653f00dc\"},{\"success\":true,\"index\":1,\"data\":\"d8b79424-01e5-4438-8a56-62913d1c0ab0\"}]}"
+						}
+					]
+				},
+				{
+					"name": "AddNovelCrawlUrls",
+					"request": {
+						"url": "{{host}}/NovelCrawl/AddNovelCrawlUrls",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"bookUid\":\"6a4cd19a-77f5-4601-ad87-7e23653f00dc\",\n\t\t\"url\":\"http://book.qidian.com/info/3602691#Catalog\",\n\t\t\"commonParseCode\":true,\n\t\t\"pageHtmlMinLength\":400000,\n\t\t\"isOfficial\":true,\n\t\t\"sSCriptCode\":\"var vs:array\\nforeach $('div.catalog-content-wrap div.volume-wrap div.volume')\\n\\tvar v:object\\n\\tv.Name = $('h3').text\\n\\tvar cs:array\\n\\tforeach $('li')\\n\\t\\tvar c:object\\n\\t\\tc = $('a').attr('title').regex('时间：(?<PublicTime>[\\\\s\\\\S]*?)章节字数：(?<WordCount>[\\\\d]{0,5})')\\n\\t\\tc.Name = $('a').text\\n\\t\\tc = $('a').attr('href').regex('(?<Vip>vip)')\\n\\t\\tc.Href = $('a').attr('href')\\n\\t\\tcs[] = c\\n\\tv.Chapters = cs\\n\\tvs[] = v\\nreturn vs\"\n\t},\n\t{\n\t\t\"bookUid\":\"6a4cd19a-77f5-4601-ad87-7e23653f00dc\",\n\t\t\"url\":\"http://www.biquge.tw/36_36007/\",\n\t\t\"commonParseCode\":true,\n\t\t\"pageHtmlMinLength\":-1,\n\t\t\"isOfficial\":false,\n\t\t\"sSCriptCode\":\"var vs:array\\nforeach $('div.list')\\n\\tvar v:object\\n\\tv.Name = $('dt').text\\n\\tvar cs:array\\n\\tforeach $('dd')\\n\\t\\tvar c:object\\n\\t\\tc.Name = $('a').text\\n\\t\\tc.Href = $('a').attr('href')\\n\\t\\tcs[] = c\\n\\tv.Chapters = cs\\n\\tvs[] = v\\nreturn vs\"\n\t}\n]"
+						},
+						"description": "添加爬去小说需要的网址以及解析方式"
+					},
+					"response": []
+				},
+				{
+					"name": "NovelCatalog",
+					"request": {
+						"url": "{{host}}/NovelCrawl/NovelCatalog",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "uid=6a4cd19a-77f5-4601-ad87-7e23653f00dc"
+						},
+						"description": "爬虫回去小说的目录信息"
+					},
+					"response": []
+				},
+				{
+					"name": "UploadVolume",
+					"request": {
+						"url": "{{host}}/NovelCrawl/UploadVolume",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"bookUid\":\"6a4cd19a-77f5-4601-ad87-7e23653f00dc\",\n\t\"no\":2,\n\t\"name\":\"九洲一号群\"\n}"
+						},
+						"description": "上传爬取好的章节信息"
+					},
+					"response": []
+				},
+				{
+					"name": "UploadChapter",
+					"request": {
+						"url": "{{host}}/NovelCrawl/UploadChapter",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"bookUid\":\"6a4cd19a-77f5-4601-ad87-7e23653f00dc\",\n\t\"uid\":\"6a4cd19a-77f5-4601-ad87-7e23653f01dd\",\n\t\"volumeNo\":1,\n\t\"volumeIndex\":1,\n\t\"name\":\"第一章 黄山真君和九洲一号群\",\n\t\"wordCount\":3276,\n\t\"publishTime\":\"2015/09/11 19:14\",\n\t\"Vip\":false\n}"
+						},
+						"description": "上传章节信息"
+					},
+					"response": []
+				},
+				{
+					"name": "UploadChapterText",
+					"request": {
+						"url": "{{host}}/NovelCrawl/UploadChapterText",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cUid\":\"6a4cd19a-77f5-4601-ad87-7e23653f01dd\",\n\t\"text\":\"2019年5月20日，星期一。\n　　春尽夏至。\n　　这个季节，江南地区的昼夜温差变的很大。白天还穿裤衩热成狗；晚上却得缩在被窝里冻成寒号鸟。\n　　江南大学城。\n　　下午两点十三分，这个点正是学生们上课的时间。宋书航却独自呆在宿舍，电脑桌被拉到床边，方便他用各种姿势观看电影。\n　　宋书航并没有逃课的爱好——昨晚上半夜天气闷热，睡梦中的他使出一招‘双龙出海’蹬飞了被子。下半夜，气温剧降。浑身上下只有一条小裤衩的宋书航顿时苦逼了，睡梦中的他双手在床上苦苦摸索，寻寻觅觅，却摸不到被子。最后只有缩成皮皮虾状，在午夜寒风的淫威下瑟瑟发抖。\n　　朝阳升起时，宋书航已成为季节性感冒大军的一员。\n　　室友已经替他请假了今天的课。\n　　然后，他吃了感冒药，一觉睡到现在。\n　　高烧褪去，身体还是有些发虚，这样的状态根本无法去上课。所以，他只能独自一人呆在宿舍无聊的看电影。\n　　屏幕上，电影的播放进度条缓缓推进。但电影的内容，宋书航却一点都没看进去。\n　　“药效还没过去吗，好困。”他打了个哈欠，感觉眼皮子有些沉重。\n　　‘滴滴滴～’这时，电脑右下角的聊天软件跳动。\n　　这是有人将他加为好友、或是加入群组的提示。\n　　“谁加我？”宋书航喃喃道，他伸手在电脑触屏的右下角轻轻一点，提示消息弹出。\n　　［黄山真君（＊＊＊＊＊＊）请求添加你为好友。］附加消息：无。\n　　黄山真君？谁啊，这种奇怪的昵称？\n　　“是班级里的同学吗？”宋书航暗道，脑海中不由想起了班级中那几个明明已经上大学却还处于青春幻想期的家伙。如果是他们的话，的确会起这种奇怪的昵称。\n　　想到这里，他点了‘同意’。\n　　紧接着，又有一条系统消息弹出。\n　　［黄山真君邀请你加入群‘九洲一号群’，是否同意？］\n　　宋书航继续按了同意。\n　　‘书山压力大’同意加入‘九洲一号群’。\n　　［您已同意加入群组，和群友们打个招呼吧！］还附送有个系统笑脸。\n　　这年头聊天工具做的越来越人性化。\n　　一连串的提示弹出后，宋书航谈定的关掉了提示和群聊天窗口——他现在睡意上涌，哪有精力管自己加了什么群？\n　　反正，他的群设置一直是‘不提示消息只显示数目’，群里聊天不会弹出打扰到他，只会在群组后显示聊天数目。\n　　等他清醒些后，可以去翻翻聊天记录，便能知道自己加入的是什么群了，还有群里成员的聊天记录也不会丢失。\n　　眼睛越来越沉重……\n　　电影进度条依旧顽强的前进，宋书航的意识却越加模糊。\n　　＊＊＊＊＊＊＊＊＊＊\n　　九洲一号群中，见到有新人加入后，群里有潜水成员冒头。\n　　北河散人：“黄山真君加了位新道友进来吗？已经有一年多没加新人了吧？”\n　　又有ＩＤ为‘苏氏阿七’迅速回复：“有新道友？道友是华夏哪个区的？在哪个洞府修行？道号呢？修为几品了？”\n　　这一连串问题，总感觉有什么地方不对劲？\n　　几乎同时，ＩＤ为狂刀三浪的弹出消息：“新道友性别？是仙子否？是的话报三围、亮个照呗！”\n　　看到苏氏阿七和狂刀三浪的消息，群里有好几人嘴角抽搐。\n　　“三浪兄，你果然是属金鱼的吗？”北河散人叹道：“你可别又作死，万一黄山真君又加了位大前辈进来怎么办？”\n　　三浪这家伙什么都好，有情有义、乐于助人，所以人缘不错——就是平时喜欢口花花，作的一手好死。\n　　偏偏这家伙幸运值又低的让人发指，每次不禁意间作死时，得罪的总是大前辈。这些闲着蛋疼的大前辈正愁没乐子，自然很开心的折腾起狂刀三浪这个送上门的乐子。\n　　“跪求不要提‘大前辈’几字，本座心里有阴影。”狂刀三浪发了一排‘泪流满面’的表情。\n　　四年前他这张破嘴得罪了一位漂亮的‘大前辈’，被折腾惨了……那大前辈一连折腾了他整整一年零四个月。您没听错，是整整一年零四个月啊！想起那段非人的峥嵘岁月，他的眼眶都湿润了。\n　　三浪才这话才刚说完，群里就接二连三的弹出坏笑表情——毫不掩饰、直白的幸灾乐祸。\n　　群里显示在线状态的有八人，其中有六人齐齐弹出刷了一排的笑脸。\n　　“你们这群幸灾乐祸的家伙，本座记住你们每一个人了，不要让本座遇上你们，否则一定要让你们尝尝本座七十二路快刀的历害！”狂刀三浪恨恨道。他对自己的快刀很有自信，刚才坏笑的六个家伙，单挑的话没有一个是他的对手。\n　　狂刀三浪才刚说完。\n　　群里马上又弹上了一个坏笑表情，是苏氏阿七的。\n　　接着苏氏阿七很兴奋道：“什么时候单挑？”\n　　显然，苏氏阿七并没有幸灾乐祸的意思——他就是想找人干一架。\n　　“……”狂刀三浪顿时萎了。\n　　因为他打不过阿七！\n　　他修为精深，已达到５品灵皇后期境界，离６品灵君也只有两步之距，但是他打不过阿七。\n　　他一手七十二路刀法又快又狠，还有快如闪电的身法，但是打不过阿七。\n　　他号称狂刀，狂起来时连自己都怕，但就是打不过阿七！\n　　群里的人看到三浪萎了后，又是一串肆无忌惮的笑脸。\n　　“……”这次，狂刀三浪只能郁闷的发一串省略号。\n　　群里人闹腾了半天，却没看到新人出声，有些疑惑。\n　　“新道友不出声？”北河散人出声问道。\n　　可惜，因为感冒药的药效，宋书航已经再次进入半睡状态。\n　　这时，苏氏阿七又很开心的发了条消息：“我看了下，新道友叫‘书山压力大’。有听过叫这道号的高手吗？这道号听起来有些像是儒门的行者？真让人期待啊！这些年，儒门的行者隐居的很深，找都找不到。我已经有近百年没打过他们了！回想起来，儒门的行者比佛门还要打的爽，不仅嘴皮子历害，拳头也够硬。而且打到兴致时还会豪迈吟诗助兴，倍爽！最喜欢打他们了。”\n　　“阿七，我说，你对新道友的期待永远只有好不好打，以及打的爽不爽吗？”狂刀三浪发了个泪流满面的表情道。这简直是恶霸行为好不好？！\n　　“呃。”苏氏阿七有些不好意思。\n　　北河散人坏笑道：“会不会又是个不会用聊天工具的‘大前辈’？”\n　　他这么一说，众人都感觉这场面很有即视感呢？\n　　对啊，差不多四年前似乎也有一位闭关了百多年后出关的前辈，同样好不容易上了聊天软件，被黄山真君加入了群。却因为不会打字，没有发言。\n　　然后，一位叫狂刀三浪的家伙很开心的在这位前辈面前口花花，又要这位前辈报三围，又要她发照片，又要语音聊天啥的。\n　　然后……没过几天，狂刀三浪就亲眼看到了这位前辈。那是位很漂亮的前辈，如同夜空中的明月一样耀眼美丽。\n　　再接着，这位美丽的前辈折腾了狂刀三浪整整一年零四个月，才心满意足的离开。\n　　狂刀三浪顿时跪了。\n　　“黄山？”这时，一个叫‘药师’的ID发言。\n　　莫名其妙的简短消息，没头没尾。\n　　好在群里的人早习惯了药师简短的聊天习惯——他是在问群主黄山真君人在哪？\n　　发言简短并不是药师性格高贵冷傲，而因为他打字用的是二指禅加手写，速度贼慢。字数多的时候还容易错，删删写写痛苦无比。所以药师习惯发言能短则短。久而久之，就变成了如今这种惜字如金的交流方式。\n　　“他加了人后就马上下线了，听说他家那只宝贝大妖犬又负气离家出走了，黄山真君又去追了。应付那宝贝大妖犬可不容易，现在真君肯定忙的很，能上线加人都是难得抽空。”北河散人回道。\n　　“……”药师。\n　　“那只能等新道友学会用聊天工具后再聊了。”苏氏阿七感叹道。他们都先入为主，认为新加入的也是同道中人。\n　　见新道友没有反应，在线的几位见没乐子，也都纷纷潜水了。\n　　＊＊＊＊＊＊＊＊＊＊\n　　大约一个小时后，宋书航稍稍清醒过来。\n　　“记得刚才有人加我群了吧，好像叫九洲一号群来着？”他低声喃喃，随手点开右下角的聊天工具，拉出九洲一号群的聊天窗口。\n　　到底是个什么群？\n　　很快，一个小时前的聊天记录出现在他面前。\n　　宋书航大概游览了一遍。\n　　道友？洞府？修为几品？\n　　还有前辈？真君？本座？追捕大妖犬？\n　　各种仙侠小说里的专用词汇。\n　　群里人员的聊天说话方式也很有趣——半古不古，半白不白的。给人的感觉就是现代人试图用古语交流，偏偏又因为古文的功底不及格，导致交流方式很别扭。\n　　“哧～～”宋书航笑出声来。\n　　看样子这是个仙侠爱好者建的群？\n　　哦不，这绝对不是普通的仙侠爱好者群！\n　　群里每个人都给自己起了个道号，住的地方要称洞府，群主走失的宠物犬都要形容成家里大妖犬离家出走。还有人自称上百年没打过儒门行者啥的，也就是说那人自称已经活了好几百岁了？\n　　光是看着这些聊天记录就有种好羞耻之感。\n　　“这种痴迷程度，已经达到了中二病的程度吧，而且是很有华夏特色的仙侠中二。”宋书航暗暗点头。\n　　看样子，这是个仙侠中二病患者的集中营！\n　　这便是他对‘九洲一号群’和群里成员的第一印象。\n　　不过为什么会加他入群？\n　　他看了下群主黄山真君的资料，并不是自己的同学，自己也肯定不认识他。\n　　是误加吗？\"\n}"
+						},
+						"description": "上传爬取好的章节正文信息"
+					},
+					"response": []
+				},
+				{
+					"name": "BookCrawlUrl",
+					"request": {
+						"url": "{{host}}/NovelCrawl/BookCrawlUrl",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "uid",
+									"value": "6a4cd19a-77f5-4601-ad87-7e23653f00dc",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": "获取书籍的爬取需要的url"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
