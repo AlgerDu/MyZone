@@ -237,3 +237,6 @@ _Pvt_Extensions
 Src/Server/wwwroot
 Src/Server/appsettings.json
 Src/Server/appsettings.development.json
+
+Src/WebClient/config/webpack.test.js
+Src/WebClient/config/webpack.dev.js
