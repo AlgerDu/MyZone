@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace MyZone.Server.Models.DataBase
 {
@@ -16,9 +18,17 @@ namespace MyZone.Server.Models.DataBase
         public virtual DbSet<Url> Url { get; set; }
         public virtual DbSet<Volume> Volume { get; set; }
 
-        public MyZoneContext(DbContextOptions<MyZoneContext> options)
-            : base(options)
-        { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // get the configuration from the app settings
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            // define the database to use
+            optionsBuilder.UseNpgsql(config.GetConnectionString("Default"));
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
