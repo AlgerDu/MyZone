@@ -10,9 +10,13 @@ namespace MyZone.Server
     /// <summary>
     /// 依赖注入
     /// </summary>
-    public class InjectorBootStrapper
+    public static class InjectorBootStrapper
     {
-        public static void RegisterServices(IServiceCollection services)
+        /// <summary>
+        /// MyZone 相关依赖注入
+        /// </summary>
+        /// <param name="services"></param>
+        public static void RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<MyZoneContext>();
 
