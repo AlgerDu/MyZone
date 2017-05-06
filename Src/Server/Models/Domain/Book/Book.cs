@@ -50,6 +50,8 @@ namespace MyZone.Server.Models.DataBase
             }
             else
             {
+                newChapter.NeedCrawl = true;
+
                 Chapter.Add(newChapter);
                 return Result.Success();
             }
