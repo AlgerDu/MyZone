@@ -38,12 +38,12 @@ namespace MyZone.Server.Controllers
             [FromBody]PageInfoDTO page)
         {
             var code = context.PageParse
-                .FirstOrDefault(p => p.Url == page.Url && p.Utype == (long)page.Type);
+                .FirstOrDefault(p => p.Url == page.Url && p.PageType == (long)page.Type);
 
             if (code == null || string.IsNullOrEmpty(code.SscriptCode))
             {
                 var host = UrlHelper.GetHost(page.Url);
-                var hostCode = context.PageParse.FirstOrDefault(p => p.Url == host && p.Utype == (long)page.Type);
+                var hostCode = context.PageParse.FirstOrDefault(p => p.Url == host && p.PageType == (long)page.Type);
 
                 if (hostCode != null)
                 {
@@ -53,7 +53,7 @@ namespace MyZone.Server.Controllers
                         SSCriptCode = hostCode.SscriptCode,
                         MinLength = code == null || code.MinLength <= 0 ? hostCode.MinLength : code.MinLength,
                         IsCommon = true,
-                        Type = (PageType)hostCode.Utype
+                        Type = (PageType)hostCode.PageType
                     });
                 }
                 else
@@ -69,7 +69,7 @@ namespace MyZone.Server.Controllers
                     SSCriptCode = code.SscriptCode,
                     MinLength = code.MinLength,
                     IsCommon = false,
-                    Type = (PageType)code.Utype
+                    Type = (PageType)code.PageType
                 });
             }
         }
@@ -102,7 +102,7 @@ namespace MyZone.Server.Controllers
                         Url = parse.Url,
                         SscriptCode = parse.SSCriptCode,
                         MinLength = parse.MinLength,
-                        Utype = (long)parse.Type
+                        PageType = (long)parse.Type
                     });
                     result.AddSuccessItem(i);
                 }
@@ -110,7 +110,7 @@ namespace MyZone.Server.Controllers
                 {
                     result.AddErrorItem(i, "页面已经存在处理代码");
                 }
-                else if (pp != null || context.PageParse.FirstOrDefault(p => p.Url == hostStr && p.Utype == (long)parse.Type) != null)
+                else if (pp != null || context.PageParse.FirstOrDefault(p => p.Url == hostStr && p.PageType == (long)parse.Type) != null)
                 {
                     result.AddErrorItem(i, "页面已经存在处理代码");
                 }
@@ -121,7 +121,7 @@ namespace MyZone.Server.Controllers
                         Url = hostStr,
                         SscriptCode = parse.SSCriptCode,
                         MinLength = -1,
-                        Utype = (long)parse.Type
+                        PageType = (long)parse.Type
                     });
                     if (pathStr != "" && pathStr != "/")
                     {
@@ -130,7 +130,7 @@ namespace MyZone.Server.Controllers
                             Url = parse.Url,
                             SscriptCode = "",
                             MinLength = parse.MinLength,
-                            Utype = (long)parse.Type
+                            PageType = (long)parse.Type
                         });
                     }
                     result.AddSuccessItem(i);

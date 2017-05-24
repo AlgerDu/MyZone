@@ -111,8 +111,7 @@ namespace MyZone.Server.Controllers
                     }
 
                     var url = new Url();
-                    url.HostUid = host.Uid;
-                    url.RelativPath = pathStr;
+                    url.UrlPath = pathStr;
                     url.Utype = (int)PageType.NovelCatalog;
 
                     context.Url.Add(url);
@@ -121,13 +120,13 @@ namespace MyZone.Server.Controllers
                     {
                         BookUid = ncUrl.BookUid,
                         Url = ncUrl.Url,
-                        Nctype = (long)(ncUrl.IsOfficial ? NovelCrawlUrlType.Official : NovelCrawlUrlType.Third),
+                        CrawlUrlType = (long)(ncUrl.IsOfficial ? NovelCrawlUrlType.Official : NovelCrawlUrlType.Third),
                     };
                     context.NovelCrawl.Add(nc);
 
                     if (ncUrl.CommonParseCode)
                     {
-                        var cpp = context.PageParse.FirstOrDefault(p => p.Url == hostStr && p.Utype == (long)PageType.NovelCatalog);
+                        var cpp = context.PageParse.FirstOrDefault(p => p.Url == hostStr && p.PageType == (long)PageType.NovelCatalog);
 
                         if (cpp == null)
                         {
@@ -136,7 +135,7 @@ namespace MyZone.Server.Controllers
                                 Url = hostStr,
                                 SscriptCode = ncUrl.SSCriptCode,
                                 MinLength = -1,
-                                Utype = (long)PageType.NovelCatalog
+                                PageType = (long)PageType.NovelCatalog
                             };
                             context.PageParse.Add(cpp);
                         }
@@ -146,7 +145,7 @@ namespace MyZone.Server.Controllers
                             Url = ncUrl.Url,
                             SscriptCode = "",
                             MinLength = ncUrl.PageHtmlMinLength,
-                            Utype = (long)PageType.NovelCatalog
+                            PageType = (long)PageType.NovelCatalog
                         };
                         context.PageParse.Add(pp);
                     }
@@ -157,7 +156,7 @@ namespace MyZone.Server.Controllers
                             Url = ncUrl.Url,
                             SscriptCode = ncUrl.SSCriptCode,
                             MinLength = ncUrl.PageHtmlMinLength,
-                            Utype = (long)PageType.NovelCatalog
+                            PageType = (long)PageType.NovelCatalog
                         };
                         context.PageParse.Add(pp);
                     }
@@ -267,7 +266,7 @@ namespace MyZone.Server.Controllers
             [FromBody]ChapterTextUploadDTO text)
         {
             var chapter = context.Chapter
-                .FirstOrDefault(c => c.Uid == text.cUid);
+                .FirstOrDefault(c => c.BookUid == text.cUid);//TODO 错误代码，需要修改
 
             if (chapter == null)
             {
@@ -286,7 +285,7 @@ namespace MyZone.Server.Controllers
                     Uid = Guid.NewGuid(),
                     Txt = text.Text,
                     CreateTime = DateTime.Now,
-                    Ctype = (long)ContentType.NovelBody
+                    ContentType = (long)ContentType.NovelBody
                 };
 
                 context.SaveChanges();

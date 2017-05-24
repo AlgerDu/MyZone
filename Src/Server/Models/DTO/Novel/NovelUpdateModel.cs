@@ -19,7 +19,7 @@ namespace MyZone.Server.Models.DTO.Novel
         /// 最后的更新时间
         /// </summary>
         /// <returns></returns>
-        public DateTime UpdateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
 
         /// <summary>
         /// 最新的章节信息
