@@ -1,0 +1,104 @@
+CREATE TABLE public."DbEnum"
+(
+    "ID"            bigint      NOT NULL,--枚举 ID
+    "TextCn"        text        NOT NULL,--枚举显示的中文名称
+    "TextEn"        text        NOT NULL,--枚举显示的英文名称
+    "ParentID"      bigint      NOT NULL,--父节点 ID
+    "Description"   text        NOT NULL,--枚举描述
+    PRIMARY KEY ("ID")
+);
+
+CREATE TABLE public."Content"
+(
+    "Uid"           uuid        NOT NULL,
+    "Txt"           text        NOT NULL,
+    "CreateTime"    timestamp   NOT NULL,
+    "EditeTime"     timestamp,
+    "ContentType"   bigint      NOT NULL references "DbEnum"("ID"),--博客、消息、小说
+    --"Language"      bigint      NOT NULL references "DbEnum"("ID"),--中文、英文
+    PRIMARY KEY ("Uid")
+);
+
+CREATE TABLE public."Book"
+(
+    "Uid"           uuid        NOT NULL,   --书籍 ID
+    "Name"          text        NOT NULL,   --书名
+    "Author"        text,                   --作者
+    PRIMARY KEY ("Uid")
+);
+
+CREATE TABLE public."Volume"--卷
+(
+    "BookUid"       uuid        NOT NULL references "Book"("Uid"),      --小说GUID
+    "No"            bigint      NOT NULL,       --卷编号
+    "Name"          text        NOT NULL,       --卷名称
+    PRIMARY KEY ("BookUid","No")
+);
+
+CREATE TABLE public."Chapter"--章节
+(
+    "BookUid"       uuid        NOT NULL    references "Book"("Uid"),   --小说GUID
+    "VolumeNo"      bigint      NOT NULL,       --卷编号
+    "VolumeIndex"   bigint      NOT NULL,       --卷内序号
+    "ContextUid"    uuid                    references "Content"("Uid"),  --内容GUID
+    "Name"          text        NOT NULL,       --小说名称
+    "PublishTime"   timestamp,                  --章节发布时间
+    "WordCount"     int,                        --字数
+    "Vip"           boolean     NOT NULL,
+    "NeedCrawl"     boolean     NOT NULL,
+    PRIMARY KEY ("BookUid", "VolumeNo" ,"VolumeIndex")
+);
+
+CREATE TABLE public."NovelCrawl"--爬取小说需要的Url
+(
+    "BookUid"        uuid       NOT NULL    references "Book"("Uid"),--小说
+    "Url"            text       NOT NULL,       --爬取小说使用的Url
+    "CrawlUrlType"   bigint     NOT NULL    references "DbEnum"("ID"),--官网目录，第三方目录
+    "LastCrawlTime"  timestamp,                 --Url 最后一次爬去时间
+    PRIMARY KEY ("BookUid","Url")
+);
+
+CREATE TABLE public."Host"--域名
+(
+    "Uid"           uuid        NOT NULL,
+    "Name"          text        NOT NULL UNIQUE,       --域名名称
+    PRIMARY KEY ("Uid")
+);
+
+CREATE TABLE public."Url"--Url
+(
+    "UrlPath"       text        NOT NULL,       --相对路径
+    "UType"         bigint      NOT NULL references "DbEnum"("ID"),--小说目录、小说章节
+    PRIMARY KEY ("UrlPath")
+);
+
+CREATE TABLE public."PageParse"--Html 页面解析
+(
+    "Url"           text        NOT NULL,
+    "PageType"      bigint      NOT NULL references "DbEnum"("ID"),--小说目录、小说章节
+    "MinLength"     bigint      NOT NULL,        --html 页面最小长度
+    "SScriptCode"   text        NOT NULL,        --SScriptCode 代码
+    PRIMARY KEY ("Url","PageType")
+);
+
+INSERT INTO "DbEnum" VALUES (0,'枚举','Enum',-1,'');
+
+-- 1 ~ 30
+INSERT INTO "DbEnum" VALUES (1,'小说状态','Enum',0,'');
+INSERT INTO "DbEnum" VALUES (2,'页面类型','Page Type',0,'');
+INSERT INTO "DbEnum" VALUES (3,'小说爬取类型','Url Type',0,'');
+INSERT INTO "DbEnum" VALUES (4,'内容类型','Content Type',0,'');
+
+INSERT INTO "DbEnum" VALUES (31,'连载','Enum',1,'');
+INSERT INTO "DbEnum" VALUES (32,'完结','Enum',1,'');
+
+INSERT INTO "DbEnum" VALUES (41,'未知','Unknown',2,'');
+INSERT INTO "DbEnum" VALUES (42,'小说目录','Enum',2,'');
+INSERT INTO "DbEnum" VALUES (43,'小说正文','Enum',2,'');
+
+INSERT INTO "DbEnum" VALUES (51,'官网目录','Enum',3,'');
+INSERT INTO "DbEnum" VALUES (52,'第三方目录','Enum',3,'');
+
+INSERT INTO "DbEnum" VALUES (61,'未知','Unknown',4,'');
+INSERT INTO "DbEnum" VALUES (62,'博客','Blog',4,'');
+INSERT INTO "DbEnum" VALUES (63,'小说正文','Enum',4,'');
