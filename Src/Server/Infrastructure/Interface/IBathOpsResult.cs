@@ -11,7 +11,7 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <summary>
         /// 是否成功
         /// </summary>
-        bool Success { get; }
+        int Code { get; }
 
         /// <summary>
         /// item 在批量操作中顺序
@@ -48,7 +48,7 @@ namespace MyZone.Server.Infrastructure.Interface
         /// <summary>
         /// 返回码 0 代表成功
         /// </summary>
-        bool Success { get; }
+        int Code { get; }
 
         /// <summary>
         /// item 在批量操作中顺序
@@ -70,7 +70,6 @@ namespace MyZone.Server.Infrastructure.Interface
     /// 批量操作结果（泛型）
     /// </summary>
     public interface IBathOpsResult<T> : IResult
-        where T : class
     {
         /// <summary>
         /// 操作的总数

@@ -9,8 +9,7 @@ namespace MyZone.Server.Infrastructure.Results
 
         public string Message { get; set; }
 
-        public static IResult<T> Success<T>(T data = null)
-            where T : class
+        public static IResult<T> Success<T>(T data = default(T))
         {
             return new Result<T>()
             {
@@ -19,14 +18,13 @@ namespace MyZone.Server.Infrastructure.Results
             };
         }
 
-        public static IResult<T> Error<T>(string msg = null, T data = null)
-            where T : class
+        public static IResult<T> Error<T>(string msg = null, T data = default(T))
         {
             return new Result<T>()
             {
                 Code = 1,
                 Message = msg,
-                Data = null
+                Data = data
             };
         }
 
@@ -50,7 +48,6 @@ namespace MyZone.Server.Infrastructure.Results
     }
 
     public class Result<T> : IResult<T>
-        where T : class
     {
         public int Code { get; set; }
 

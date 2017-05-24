@@ -19,7 +19,7 @@ namespace MyZone.Server.Infrastructure.Interface
     /// <summary>
     /// 通用数据返回接口
     /// </summary>
-    public interface IResult<T> : IResult where T : class
+    public interface IResult<T> : IResult
     {
         /// <summary>
         /// 返回数据

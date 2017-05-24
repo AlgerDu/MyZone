@@ -10,7 +10,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// <summary>
         /// 是否成功
         /// </summary>
-        public bool Success { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// item 在批量操作中顺序
@@ -33,7 +33,7 @@ namespace MyZone.Server.Infrastructure.Results
         {
             get
             {
-                var count = _items.Values.Count(i => i.Success == false);
+                var count = _items.Values.Count(i => i.Code == 0);
                 if (count == 0)
                 {
                     return 0;
@@ -76,7 +76,7 @@ namespace MyZone.Server.Infrastructure.Results
             }
 
             var item = new BathOpsResultItem();
-            item.Success = true;
+            item.Code = 0;
             item.Index = index;
             item.Message = msg;
 
@@ -95,7 +95,7 @@ namespace MyZone.Server.Infrastructure.Results
             }
 
             var item = new BathOpsResultItem();
-            item.Success = false;
+            item.Code = 1;
             item.Index = index;
             item.Message = msg;
 
@@ -110,7 +110,7 @@ namespace MyZone.Server.Infrastructure.Results
             }
 
             var item = new BathOpsResultItem();
-            item.Success = result.Code == 0;
+            item.Code = result.Code;
             item.Index = index;
             item.Message = result.Message;
 
@@ -123,7 +123,7 @@ namespace MyZone.Server.Infrastructure.Results
         /// <summary>
         /// 是否成功
         /// </summary>
-        public bool Success { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// item 在批量操作中顺序
@@ -152,7 +152,7 @@ namespace MyZone.Server.Infrastructure.Results
         {
             get
             {
-                var count = _items.Values.Count(i => i.Success == false);
+                var count = _items.Values.Count(i => i.Code == 0);
                 if (count == 0)
                 {
                     return 0;
@@ -195,7 +195,7 @@ namespace MyZone.Server.Infrastructure.Results
             }
 
             var item = new BathOpsResultItem<T>();
-            item.Success = true;
+            item.Code = 0;
             item.Index = index;
             item.Message = msg;
             item.Data = data;
@@ -215,7 +215,7 @@ namespace MyZone.Server.Infrastructure.Results
             }
 
             var item = new BathOpsResultItem<T>();
-            item.Success = false;
+            item.Code = 1;
             item.Index = index;
             item.Message = msg;
             item.Data = data;
@@ -231,7 +231,7 @@ namespace MyZone.Server.Infrastructure.Results
             }
 
             var item = new BathOpsResultItem<T>();
-            item.Success = result.Code == 0;
+            item.Code = result.Code;
             item.Index = index;
             item.Message = result.Message;
             item.Data = result.Data;
