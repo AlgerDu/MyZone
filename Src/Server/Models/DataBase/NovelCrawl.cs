@@ -7,9 +7,10 @@ namespace MyZone.Server.Models.DataBase
     {
         public Guid BookUid { get; set; }
         public string Url { get; set; }
-        public long Nctype { get; set; }
+        public long CrawlUrlType { get; set; }
+        public DateTime? LastCrawlTime { get; set; }
 
         public virtual Book BookU { get; set; }
-        public virtual DbEnum NctypeNavigation { get; set; }
+        public virtual DbEnum CrawlUrlTypeNavigation { get; set; }
     }
 }
