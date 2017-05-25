@@ -67,12 +67,12 @@ namespace MyZone.Server.Infrastructure.SearchBase
             _data = new List<T>();
         }
 
-        public SearchResult(int total, int index, int size, IEnumerable<T> records)
+        public SearchResult(long total, long index, long size, IEnumerable<T> records)
         {
             RecodCount = total;
             PageIndex = index;
             PageSize = size;
-            _data = Data;
+            _data = records;
         }
 
         public void AddRecord(T record)
