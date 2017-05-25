@@ -59,7 +59,20 @@ namespace MyZone.Server.Controllers
             [FromBody]NovelUpdateModel novel
         )
         {
-            return null;
+            var book = _bookRepo.GetByKey(novel.Uid);
+
+            if (book == null)
+            {
+                return Result.Error("小说不存在");
+            }
+
+            book.Name = novel.Name;
+            book.Author = novel.Author;
+
+            _bookRepo.Update(book);
+            _bookRepo.SaveChanges();
+
+            return Result.Success();
         }
 
         /// <summary>
