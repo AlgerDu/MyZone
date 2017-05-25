@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -84,7 +85,13 @@ namespace MyZone.Server.Controllers
             [FromBody]SerachCondition condition
         )
         {
-            return null;
+            var r = _bookRepo.Search(condition);
+
+            return new SearchResult<NovelListModel>(
+                r.RecodCount,
+                r.PageIndex,
+                r.PageSize,
+                _mapper.Map<IEnumerable<NovelListModel>>(r.Data));
         }
     }
 }
