@@ -1,7 +1,6 @@
 using System;
 using AutoMapper;
 using MyZone.Server.Models.DataBase;
-using MyZone.Server.Models.DTO.NovelCrawl;
 
 namespace MyZone.Server.Models.Domain.Books
 {

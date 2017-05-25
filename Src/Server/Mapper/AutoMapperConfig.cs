@@ -1,4 +1,5 @@
 using AutoMapper;
+using MyZone.Server.Models.DTO.BookManagement;
 
 namespace MyZone.Server.Mapper
 {
@@ -15,6 +16,8 @@ namespace MyZone.Server.Mapper
                 cfg.AddProfile(new ViewModelToDomainMappingProfile());
 
                 cfg.AddProfile(new Models.DTO.Novel.MappingProfile());
+
+                cfg.AddProfile(new BookManagementMappingProfile());
             });
         }
     }

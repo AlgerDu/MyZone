@@ -6,6 +6,5 @@ namespace MyZone.Server.Models.Domain.Books
 {
     public interface IBookRepository : IRepository<Book, Guid>
     {
-
     }
 }

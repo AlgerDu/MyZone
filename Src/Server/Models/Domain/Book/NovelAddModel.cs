@@ -1,4 +1,4 @@
-namespace MyZone.Server.Models.DTO.NovelCrawl
+namespace MyZone.Server.Models.Domain.Books
 {
     /// <summary>
     /// 添加小说类书籍使用
