@@ -41,7 +41,7 @@ namespace MyZone.Server.Infrastructure.SearchBase
     public class SearchResult<T> : ISearchResult<T>
         where T : class
     {
-        IList<T> _data;
+        IEnumerable<T> _data;
 
         public long PageSize { get; set; }
 
@@ -67,12 +67,20 @@ namespace MyZone.Server.Infrastructure.SearchBase
             _data = new List<T>();
         }
 
-        public void AddRecord(T record)
+        public SearchResult(int total, int index, int size, IEnumerable<T> records)
         {
-            _data.Add(record);
+            RecodCount = total;
+            PageIndex = index;
+            PageSize = size;
+            _data = Data;
         }
 
-        public void SetRecords(IList<T> records)
+        public void AddRecord(T record)
+        {
+            //_data.Add(record);
+        }
+
+        public void SetRecords(IEnumerable<T> records)
         {
             _data = records;
         }

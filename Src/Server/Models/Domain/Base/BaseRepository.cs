@@ -106,7 +106,7 @@ namespace MyZone.Server.Models.Domain.Base
                     .Skip((int)(condition.PageIndex * condition.PageSize - condition.PageSize))
                     .Take((int)condition.PageSize);
 
-            result.SetRecords(records.ToList());
+            result.SetRecords(records);
 
             return result;
         }
