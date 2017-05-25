@@ -34,14 +34,14 @@ namespace MyZone.Server.Controllers
         /// <summary>
         /// 向系统中添加一本小说类型的书籍
         /// </summary>
-        /// <param name="novle"></param>
+        /// <param name="novel"></param>
         /// <returns></returns>
-        public IResult<Guid> AddNovle(
-            [FromBody]NovelAddModel novle
+        public IResult<Guid> AddNovel(
+            [FromBody]NovelAddModel novel
             , [FromServices]BookFactory bookFactory
         )
         {
-            var book = bookFactory.CreateNovel(novle);
+            var book = bookFactory.CreateNovel(novel);
 
             _bookRepo.Insert(book);
 
