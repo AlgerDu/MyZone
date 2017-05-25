@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MyZone.Server.Infrastructure.Interface;
 
 namespace MyZone.Server.Infrastructure.SearchBase
@@ -69,6 +70,11 @@ namespace MyZone.Server.Infrastructure.SearchBase
         public void AddRecord(T record)
         {
             _data.Add(record);
+        }
+
+        public void SetRecords(IList<T> records)
+        {
+            _data = records;
         }
     }
 }

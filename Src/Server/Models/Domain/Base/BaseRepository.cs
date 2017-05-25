@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Infrastructure.Results;
+using MyZone.Server.Infrastructure.SearchBase;
 using MyZone.Server.Models.DataBase;
 
 namespace MyZone.Server.Models.Domain.Base
@@ -90,6 +91,24 @@ namespace MyZone.Server.Models.Domain.Base
         public int SaveChanges()
         {
             return _context.SaveChanges();
+        }
+
+        public ISearchResult<TEntity> Search(ISerachCondition condition)
+        {
+            var result = new SearchResult<TEntity>(Entities.Count())
+            {
+                PageSize = condition.PageSize,
+                PageIndex = condition.PageIndex,
+                Code = 0
+            };
+
+            var records = Entities
+                    .Skip((int)(condition.PageIndex * condition.PageSize - condition.PageSize))
+                    .Take((int)condition.PageSize);
+
+            result.SetRecords(records.ToList());
+
+            return result;
         }
     }
 }

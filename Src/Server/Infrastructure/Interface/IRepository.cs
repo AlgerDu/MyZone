@@ -14,6 +14,13 @@ namespace MyZone.Server.Infrastructure.Interface
         IQueryable<TEntity> Entities { get; }
 
         /// <summary>
+        /// 通用简单查询接口
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        ISearchResult<TEntity> Search(ISerachCondition condition);
+
+        /// <summary>
         /// 插入实体
         /// </summary>
         /// <param name="entity"></param>

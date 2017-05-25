@@ -54,7 +54,6 @@ namespace MyZone.Server.Infrastructure.Interface
     }
 
     public interface ISearchResult<T> : IResult
-        where T : class
     {
         /// <summary>
         /// 每页数量，为 0 时代表不分页
