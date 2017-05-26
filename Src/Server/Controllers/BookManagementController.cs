@@ -93,5 +93,50 @@ namespace MyZone.Server.Controllers
                 r.PageSize,
                 _mapper.Map<IEnumerable<NovelListModel>>(r.Data));
         }
+
+        /// <summary>
+        /// 获取小说的章节卷信息
+        /// </summary>
+        /// <returns></returns>
+        public IResult Chapters()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 重新爬去一本小说的全部章节
+        /// </summary>
+        /// <returns></returns>
+        public IResult RecrawlNovel()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 重新爬去小说的部分章节
+        /// </summary>
+        /// <returns></returns>
+        public IResult RecrawlChapters()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 获取小说的爬去Url以及页面处理代码
+        /// </summary>
+        /// <returns></returns>
+        public IResult NovelCrwalUrl()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// 设置小说的爬去Url以及页面处理代码
+        /// </summary>
+        /// <returns></returns>
+        public IResult SetNovelCrwalUrl()
+        {
+            return null;
+        }
     }
 }
