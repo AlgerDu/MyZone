@@ -17,7 +17,7 @@ namespace MyZone.Server.Mapper
 
                 cfg.AddProfile(new Models.DTO.Novel.MappingProfile());
 
-                cfg.AddProfile(new BookManagementMappingProfile());
+                cfg.AddProfile(new Models.DTO.BookManagement.MappingProfile());
             });
         }
     }

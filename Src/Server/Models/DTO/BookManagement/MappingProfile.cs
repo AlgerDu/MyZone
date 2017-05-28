@@ -4,9 +4,9 @@ using MyZone.Server.Models.DataBase;
 
 namespace MyZone.Server.Models.DTO.BookManagement
 {
-    public class BookManagementMappingProfile : Profile
+    public class MappingProfile : Profile
     {
-        public BookManagementMappingProfile()
+        public MappingProfile()
         {
             CreateMap<Book, NovelListModel>();
 
