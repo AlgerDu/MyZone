@@ -121,9 +121,26 @@ namespace MyZone.Server.Controllers
         /// 重新爬去一本小说的全部章节
         /// </summary>
         /// <returns></returns>
-        public IResult RecrawlNovel()
+        public IResult RecrawlNovel(Guid bookUid)
         {
-            return null;
+            var find = _bookRepo.GetByKey(bookUid);
+
+            if (find == null)
+            {
+                return Result.Error<NovelCatalogChapterModel>("书籍不存在");
+            }
+
+            _lazy.LoadBookCatalog(find);
+
+            foreach (var c in find.Chapter)
+            {
+                c.NeedCrawl = true;
+            }
+
+            _bookRepo.Update(find);
+            _bookRepo.SaveChanges();
+
+            return Result.Success();
         }
 
         /// <summary>
