@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -151,9 +152,30 @@ namespace MyZone.Server.Controllers
         /// 重新爬去小说的部分章节
         /// </summary>
         /// <returns></returns>
-        public IResult RecrawlChapters()
+        public IResult RecrawlChapters(
+            [FromBody]RecrawlChapterListModel info
+            )
         {
-            return null;
+            var find = _bookRepo.GetByKey(info.BookUid);
+
+            if (find == null)
+            {
+                return Result.Error<NovelCatalogChapterModel>("书籍不存在");
+            }
+
+            _lazy.LoadBookCatalog(find);
+
+            var needRecrawlChapters = from c in find.Chapter
+                                      from ic in info.Chapters
+                                      where c.VolumeIndex == ic.VolumeIndex && c.VolumeNo == ic.VolumeNo
+                                      select c;
+
+            foreach (var c in needRecrawlChapters.ToList())
+            {
+                c.NeedCrawl = true;
+            }
+
+            return Result.Success();
         }
 
         /// <summary>
