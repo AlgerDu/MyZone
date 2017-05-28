@@ -20,15 +20,18 @@ namespace MyZone.Server.Controllers
         ILogger _logger;
         IBookRepository _bookRepo;
         IMapper _mapper;
+        IFunnyLazyLoading _lazy;
 
         public BookManagementController(
             ILogger<BookManagementController> logger
             , IBookRepository bookRepo
+            , IFunnyLazyLoading lazy
             , IMapper mapper
         )
         {
             _logger = logger;
             _bookRepo = bookRepo;
+            _lazy = lazy;
             _mapper = mapper;
         }
 
@@ -98,8 +101,17 @@ namespace MyZone.Server.Controllers
         /// 获取小说的章节卷信息
         /// </summary>
         /// <returns></returns>
-        public IResult Chapters()
+        public IResult<NovelCatalogChapterModel> Catalog(Guid bookUid)
         {
+            var find = _bookRepo.GetByKey(bookUid);
+
+            if (find == null)
+            {
+                return Result.Error<NovelCatalogChapterModel>("书籍不存在");
+            }
+
+
+
             return null;
         }
 
@@ -125,7 +137,7 @@ namespace MyZone.Server.Controllers
         /// 获取小说的爬去Url以及页面处理代码
         /// </summary>
         /// <returns></returns>
-        public IResult NovelCrwalUrl()
+        public IResult NovelCrwalInfo()
         {
             return null;
         }
@@ -134,7 +146,7 @@ namespace MyZone.Server.Controllers
         /// 设置小说的爬去Url以及页面处理代码
         /// </summary>
         /// <returns></returns>
-        public IResult SetNovelCrwalUrl()
+        public IResult UpdateNovelCrwal()
         {
             return null;
         }
