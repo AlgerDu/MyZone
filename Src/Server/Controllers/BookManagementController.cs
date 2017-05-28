@@ -110,9 +110,11 @@ namespace MyZone.Server.Controllers
                 return Result.Error<NovelCatalogChapterModel>("书籍不存在");
             }
 
+            _lazy.LoadBookCatalog(find);
 
+            var dto = _mapper.Map<NovelCatalogChapterModel>(find);
 
-            return null;
+            return Result.Success(dto);
         }
 
         /// <summary>
