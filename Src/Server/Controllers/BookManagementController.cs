@@ -101,7 +101,9 @@ namespace MyZone.Server.Controllers
         /// 获取小说的章节卷信息
         /// </summary>
         /// <returns></returns>
-        public IResult<NovelCatalogChapterModel> Catalog(Guid bookUid)
+        public IResult<NovelCatalogChapterModel> Catalog(
+            [FromBody]Guid bookUid
+            )
         {
             var find = _bookRepo.GetByKey(bookUid);
 
@@ -121,7 +123,9 @@ namespace MyZone.Server.Controllers
         /// 重新爬去一本小说的全部章节
         /// </summary>
         /// <returns></returns>
-        public IResult RecrawlNovel(Guid bookUid)
+        public IResult RecrawlNovel(
+            [FromBody]Guid bookUid
+            )
         {
             var find = _bookRepo.GetByKey(bookUid);
 
