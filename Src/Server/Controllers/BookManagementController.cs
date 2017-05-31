@@ -175,6 +175,9 @@ namespace MyZone.Server.Controllers
                 c.NeedCrawl = true;
             }
 
+            _bookRepo.Update(find);
+            _bookRepo.SaveChanges();
+
             return Result.Success();
         }
 
