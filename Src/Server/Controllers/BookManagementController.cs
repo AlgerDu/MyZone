@@ -184,8 +184,11 @@ namespace MyZone.Server.Controllers
         /// <summary>
         /// 获取小说的爬去Url以及页面处理代码
         /// </summary>
+        /// <param name="bookUid"></param>
         /// <returns></returns>
-        public IResult NovelCrwalInfo()
+        public IResult<UrlPageParseModel> NovelCrwalInfo(
+            [FromBody]Guid bookUid
+            )
         {
             return null;
         }
