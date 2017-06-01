@@ -11,6 +11,8 @@ namespace MyZone.Server.Models.DataBase
     /// </summary>
     public partial class Book : IAggregateRoot<Guid>
     {
+        IList<Url> _unofficialWites = new List<Url>();
+
         public Guid Key
         {
             get
@@ -28,7 +30,13 @@ namespace MyZone.Server.Models.DataBase
         /// 爬去书籍用非官方网站（第三方）
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Url> UnofficialWites { get; set; }
+        public IEnumerable<Url> UnofficialWites
+        {
+            get
+            {
+                return _unofficialWites;
+            }
+        }
 
         /// <summary>
         /// 添加章节
@@ -77,6 +85,15 @@ namespace MyZone.Server.Models.DataBase
         public Chapter GetChapter(int volumeNo, int volumeIndex)
         {
             return Chapter.FirstOrDefault(c => c.VolumeNo == volumeNo && c.VolumeIndex == volumeIndex);
+        }
+
+        /// <summary>
+        /// 添加爬去用的非官方网站 url
+        /// </summary>
+        /// <param name="url"></param>
+        public void AddUnofficialUrl(Url url)
+        {
+            _unofficialWites.Add(url);
         }
     }
 }
