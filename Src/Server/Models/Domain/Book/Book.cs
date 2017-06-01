@@ -20,6 +20,17 @@ namespace MyZone.Server.Models.DataBase
         }
 
         /// <summary>
+        /// 小说的官方网站
+        /// </summary>
+        public Url OfficialSite { get; set; }
+
+        /// <summary>
+        /// 爬去书籍用非官方网站（第三方）
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Url> UnofficialWites { get; set; }
+
+        /// <summary>
         /// 添加章节
         /// </summary>
         /// <param name="newVolume"></param>
