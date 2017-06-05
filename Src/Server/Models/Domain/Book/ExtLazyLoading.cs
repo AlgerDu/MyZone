@@ -28,5 +28,17 @@ namespace MyZone.Server.Models.Domain.Books
                     .Reference(c => c.ContextU)
                     .Load();
         }
+
+        /// <summary>
+        /// 加载书籍的爬去信息
+        /// </summary>
+        /// <param name="lazy"></param>
+        /// <param name="book"></param>
+        public static void LoadBookCrawlUrl(this IFunnyLazyLoading lazy, Book book)
+        {
+            lazy.Context.Entry(book)
+                .Collection(b => b.NovelCrawl)
+                .Load();
+        }
     }
 }

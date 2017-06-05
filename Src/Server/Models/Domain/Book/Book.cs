@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Infrastructure.Results;
+using MyZone.Server.Models.Domain.Urls;
 
 namespace MyZone.Server.Models.DataBase
 {
@@ -12,6 +13,9 @@ namespace MyZone.Server.Models.DataBase
     public partial class Book : IAggregateRoot<Guid>
     {
         IList<Url> _unofficialWites = new List<Url>();
+
+        IFunnyLazyLoading S_Load { get; set; }
+        IUrlRepository S_UrlRepo { get; set; }
 
         public Guid Key
         {
