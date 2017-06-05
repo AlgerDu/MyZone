@@ -1,4 +1,6 @@
+using System;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MyZone.Server.Infrastructure;
 using MyZone.Server.Infrastructure.Interface;
@@ -24,6 +26,20 @@ namespace MyZone.Server
 
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddSingleton<BookFactory>();
+        }
+
+        public static IServiceProvider MyZoneServices(IServiceCollection services)
+        {
+            // Create the container builder.
+            var builder = new ContainerBuilder();
+
+
+
+            builder.Populate(services);
+
+            var container = builder.Build();
+
+            return new AutofacServiceProvider(container);
         }
     }
 }
