@@ -2,7 +2,7 @@ using Autofac;
 
 namespace MyZone.Server.Infrastructure.Interface
 {
-    public interface IServiceProvider
+    public interface IDServiceProvider
     {
         /// <summary>
         /// 获取一个实例

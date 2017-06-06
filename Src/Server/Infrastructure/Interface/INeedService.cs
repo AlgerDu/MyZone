@@ -9,6 +9,6 @@ namespace MyZone.Server.Infrastructure.Interface
         /// 注入服务 provider
         /// </summary>
         /// <param name="provider"></param>
-        void InjecteService(IServiceProvider provider);
+        void InjecteService(IDServiceProvider provider);
     }
 }
