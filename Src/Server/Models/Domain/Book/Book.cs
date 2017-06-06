@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Infrastructure.Results;
+using MyZone.Server.Models.Domain.Base;
 using MyZone.Server.Models.Domain.Urls;
 
 namespace MyZone.Server.Models.DataBase
@@ -10,12 +11,12 @@ namespace MyZone.Server.Models.DataBase
     /// <summary>
     /// 书籍领域模型
     /// </summary>
-    public partial class Book : IAggregateRoot<Guid>
+    public partial class Book : BaseDomainModel, IAggregateRoot<Guid>
     {
         IList<Url> _unofficialWites = new List<Url>();
 
-        IFunnyLazyLoading S_Load { get; set; }
-        IUrlRepository S_UrlRepo { get; set; }
+        IFunnyLazyLoading _load { get; set; }
+        IUrlRepository _urlRepo { get; set; }
 
         public Guid Key
         {

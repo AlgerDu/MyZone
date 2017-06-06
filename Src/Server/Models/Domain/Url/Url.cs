@@ -1,12 +1,13 @@
 using System.Text.RegularExpressions;
 using MyZone.Server.Infrastructure.Interface;
+using MyZone.Server.Models.Domain.Base;
 
 namespace MyZone.Server.Models.DataBase
 {
     /// <summary>
     /// Url 领域模型
     /// </summary>
-    public partial class Url : IAggregateRoot<string>
+    public partial class Url : BaseDomainModel, IAggregateRoot<string>
     {
         public string Key
         {
