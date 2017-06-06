@@ -5,6 +5,10 @@ namespace MyZone.Server.Infrastructure.Interface
     /// </summary>
     public interface INeedService
     {
-        void InjecteService();
+        /// <summary>
+        /// 注入服务 provider
+        /// </summary>
+        /// <param name="provider"></param>
+        void InjecteService(IServiceProvider provider);
     }
 }

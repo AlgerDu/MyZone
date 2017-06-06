@@ -1,12 +1,12 @@
 using Autofac;
 
-namespace Server.Infrastructure.Interface
+namespace MyZone.Server.Infrastructure.Interface
 {
-    public interface IServicePrivoder
+    public interface IServiceProvider
     {
         /// <summary>
-        /// IoC 容器
+        /// 获取一个实例
         /// </summary>
-        IContainer Container { get; set; }
+        T Resolve<T>();
     }
 }
