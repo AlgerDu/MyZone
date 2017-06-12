@@ -2,6 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models.Domain.Base;
+using MyZone.Server.Models.Domain.Url;
 
 namespace MyZone.Server.Models.DataBase
 {
@@ -10,6 +11,8 @@ namespace MyZone.Server.Models.DataBase
     /// </summary>
     public partial class Url : IAggregateRoot<string>
     {
+        UrlServiceCollection _service;
+
         public string Key
         {
             get
@@ -39,7 +42,7 @@ namespace MyZone.Server.Models.DataBase
 
         void INeedService.InjecteService(IDServiceCollection collection)
         {
-            throw new NotImplementedException();
+            _service = collection as UrlServiceCollection;
         }
     }
 }
