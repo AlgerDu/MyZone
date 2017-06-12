@@ -6,9 +6,9 @@ namespace MyZone.Server.Infrastructure.Interface
     public interface INeedService
     {
         /// <summary>
-        /// 注入服务 provider
+        /// 注入服务 collection
         /// </summary>
-        /// <param name="provider"></param>
-        void InjecteService(IDServiceProvider provider);
+        /// <param name="collection"></param>
+        void InjecteService(IDServiceCollection collection);
     }
 }

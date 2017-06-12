@@ -11,7 +11,7 @@ namespace MyZone.Server.Models.DataBase
     /// <summary>
     /// 书籍领域模型
     /// </summary>
-    public partial class Book : BaseDomainModel, IAggregateRoot<Guid>
+    public partial class Book : IAggregateRoot<Guid>
     {
         IList<Url> _unofficialWites = new List<Url>();
 
@@ -99,6 +99,11 @@ namespace MyZone.Server.Models.DataBase
         public void AddUnofficialUrl(Url url)
         {
             _unofficialWites.Add(url);
+        }
+
+        void INeedService.InjecteService(IDServiceCollection collection)
+        {
+            throw new NotImplementedException();
         }
     }
 }
