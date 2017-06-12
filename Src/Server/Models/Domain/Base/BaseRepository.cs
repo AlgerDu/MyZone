@@ -20,6 +20,8 @@ namespace MyZone.Server.Models.Domain.Base
 
         protected DbSet<TEntity> _dbSet;
 
+        protected IDServiceCollection _service;
+
         public virtual IQueryable<TEntity> Entities
         {
             get
@@ -60,7 +62,7 @@ namespace MyZone.Server.Models.Domain.Base
 
         public virtual TEntity GetByKey(KeyType key)
         {
-            return _dbSet.Find(key);
+            return InjecteService(_dbSet.Find(key));
         }
 
         public virtual IResult Insert(TEntity entity)
@@ -106,9 +108,25 @@ namespace MyZone.Server.Models.Domain.Base
                     .Skip((int)(condition.PageIndex * condition.PageSize - condition.PageSize))
                     .Take((int)condition.PageSize);
 
-            result.SetRecords(records);
+            result.SetRecords(InjecteService(records));
 
             return result;
+        }
+
+        private IQueryable<TEntity> InjecteService(IQueryable<TEntity> entitys)
+        {
+            foreach (var e in entitys)
+            {
+                e.InjecteService(_service);
+            }
+
+            return entitys;
+        }
+
+        private TEntity InjecteService(TEntity entity)
+        {
+            entity.InjecteService(_service);
+            return entity;
         }
     }
 }
