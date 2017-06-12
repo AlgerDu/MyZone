@@ -5,7 +5,11 @@ namespace MyZone.Server.Models.Domain.Urls
 {
     public class UrlRepository : BaseRepository<Url, string>, IUrlRepository
     {
-        public UrlRepository(MyZoneContext context) : base(context)
-        { }
+        public UrlRepository(
+            MyZoneContext context
+            , UrlServiceCollection service) : base(context)
+        {
+            _service = service;
+        }
     }
 }

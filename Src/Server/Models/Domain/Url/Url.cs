@@ -2,7 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models.Domain.Base;
-using MyZone.Server.Models.Domain.Url;
+using MyZone.Server.Models.Domain.Urls;
 
 namespace MyZone.Server.Models.DataBase
 {
