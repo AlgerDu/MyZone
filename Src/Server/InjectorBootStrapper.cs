@@ -6,6 +6,7 @@ using MyZone.Server.Infrastructure;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models.DataBase;
 using MyZone.Server.Models.Domain.Books;
+using MyZone.Server.Models.Domain.Urls;
 
 namespace MyZone.Server
 {
@@ -28,12 +29,20 @@ namespace MyZone.Server
             services.AddSingleton<BookFactory>();
         }
 
-        public static IServiceProvider MyZoneServices(IServiceCollection services)
+        public static IServiceProvider MyZoneServices(this IServiceCollection services)
         {
             // Create the container builder.
             var builder = new ContainerBuilder();
 
+            builder.RegisterType<MyZoneContext>();
 
+            builder.RegisterType<FunnyLazyLoading>().As<IFunnyLazyLoading>().InstancePerRequest();
+
+            builder.RegisterType<BookRepository>().As<IBookRepository>().InstancePerRequest();
+            builder.RegisterType<BookFactory>().SingleInstance();
+
+            builder.RegisterType<UrlRepository>().As<IUrlRepository>().InstancePerRequest();
+            builder.RegisterType<BookFactory>().SingleInstance();
 
             builder.Populate(services);
 

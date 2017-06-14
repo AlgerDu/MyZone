@@ -33,7 +33,7 @@ namespace Server
         public IContainer ApplicationContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             //添加数据上下文
             // services.AddDbContext<MyZoneContext>(options =>
@@ -50,7 +50,7 @@ namespace Server
 
             services.AddAutoMapper();
 
-            services.RegisterServices();
+            return services.MyZoneServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
