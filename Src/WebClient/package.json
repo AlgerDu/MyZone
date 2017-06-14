@@ -1,6 +1,6 @@
 {
   "name": "my-zone-web-client",
-  "version": "1.0.0_beat",
+  "version": "1.0.0",
   "private": true,
   "description": "MyZone 个人网站 web 客户端",
   "scripts": {
@@ -30,7 +30,7 @@
     "core-js": "^2.4.1",
     "ngx-bootstrap": "^1.7.1",
     "rxjs": "5.0.1",
-    "zone.js": "^0.8.4"
+    "zone.js": "0.8.4"
   },
   "devDependencies": {
     "@types/jasmine": "2.5.36",
