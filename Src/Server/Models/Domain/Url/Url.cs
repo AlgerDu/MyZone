@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Models.Domain.Base;
@@ -12,6 +13,8 @@ namespace MyZone.Server.Models.DataBase
     public partial class Url : IAggregateRoot<string>
     {
         UrlServiceCollection _service;
+
+        Host _host;
 
         public string Key
         {
@@ -36,9 +39,44 @@ namespace MyZone.Server.Models.DataBase
         /// <summary>
         /// 主机
         /// </summary>
-        public Host Host { get; set; }
+        public Host Host
+        {
+            get
+            {
+                if (_host == null)
+                {
+                    var context = _service.Load.Context as MyZoneContext;
 
-        public PageParse Parse { get; set; }
+                    var _host = context.Host
+                            .FirstOrDefault(h => h.Name == HostName);
+
+                    if (_host == null)
+                    {
+                        _host = new Host()
+                        {
+                            Name = HostName,
+                            Uid = Guid.NewGuid()
+                        };
+
+                        context.Host.Add(_host);
+                    }
+
+                    _host.PageParses = context.PageParse
+                            .Where(pp => pp.Url == _host.Name);
+                }
+
+                return _host;
+            }
+        }
+
+        public PageParse Parse
+        {
+            get
+            {
+                return _service.Load.Context.PageParse
+                        .FirstOrDefault(pp => pp.Url == UrlPath);
+            }
+        }
 
         void INeedService.InjecteService(IDServiceCollection collection)
         {

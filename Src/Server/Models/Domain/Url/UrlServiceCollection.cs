@@ -7,6 +7,13 @@ namespace MyZone.Server.Models.Domain.Urls
     /// </summary>
     public class UrlServiceCollection : IDServiceCollection
     {
+        public IFunnyLazyLoading Load { get; set; }
 
+        public UrlServiceCollection(
+            IFunnyLazyLoading load
+        )
+        {
+            Load = load;
+        }
     }
 }
