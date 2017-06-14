@@ -1,4 +1,5 @@
 using MyZone.Server.Infrastructure.Interface;
+using MyZone.Server.Models.DataBase;
 
 namespace MyZone.Server.Models.Domain.Urls
 {
@@ -7,13 +8,13 @@ namespace MyZone.Server.Models.Domain.Urls
     /// </summary>
     public class UrlServiceCollection : IDServiceCollection
     {
-        public IFunnyLazyLoading Load { get; set; }
+        public MyZoneContext Context { get; private set; }
 
         public UrlServiceCollection(
-            IFunnyLazyLoading load
+            MyZoneContext context
         )
         {
-            Load = load;
+            Context = context;
         }
     }
 }

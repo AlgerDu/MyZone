@@ -45,7 +45,7 @@ namespace MyZone.Server.Models.DataBase
             {
                 if (_host == null)
                 {
-                    var context = _service.Load.Context as MyZoneContext;
+                    var context = _service.Context as MyZoneContext;
 
                     var _host = context.Host
                             .FirstOrDefault(h => h.Name == HostName);
@@ -73,7 +73,7 @@ namespace MyZone.Server.Models.DataBase
         {
             get
             {
-                return _service.Load.Context.PageParse
+                return _service.Context.PageParse
                         .FirstOrDefault(pp => pp.Url == UrlPath);
             }
         }
