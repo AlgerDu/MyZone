@@ -15,9 +15,6 @@ namespace MyZone.Server.Models.DataBase
     {
         IList<Url> _unofficialWites = new List<Url>();
 
-        IFunnyLazyLoading _load { get; set; }
-        IUrlRepository _urlRepo { get; set; }
-
         public Guid Key
         {
             get
