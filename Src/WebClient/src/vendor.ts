@@ -10,3 +10,4 @@ import '@angular/router';
 import 'rxjs';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import 'ngx-bootstrap';
