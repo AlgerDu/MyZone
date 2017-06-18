@@ -3,12 +3,15 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
+import { TabsModule } from 'ngx-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    TabsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
