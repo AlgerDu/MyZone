@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import { TabsModule } from 'ngx-bootstrap';
+import { TabsModule, AccordionModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,8 @@ import { TabsModule } from 'ngx-bootstrap';
   ],
   imports: [
     BrowserModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    AccordionModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
