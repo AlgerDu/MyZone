@@ -6,10 +6,12 @@ import { TabsModule, AccordionModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import { SideNavbarComponent } from './block/side-navbar/side-navbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SideNavbarComponent
   ],
   imports: [
     BrowserModule,
