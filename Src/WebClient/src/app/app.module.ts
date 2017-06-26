@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { SideNavbarComponent } from './block/side-navbar/side-navbar.component';
+import { ConfigService } from './service/config.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { SideNavbarComponent } from './block/side-navbar/side-navbar.component';
     TabsModule.forRoot(),
     AccordionModule.forRoot()
   ],
-  providers: [],
+  providers: [ConfigService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
