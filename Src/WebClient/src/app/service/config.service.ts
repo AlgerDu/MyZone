@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 
 /**
  * 配置服务
@@ -7,31 +7,35 @@ import { Injectable } from '@angular/core';
  * @class ConfigService
  */
 @Injectable()
-export class ConfigService {
+export class ConfigService implements OnInit {
 
   /** UI 的界面配置 */
-  UiConfig: UiConfig;
+  uiConfig: UiConfig;
 
   constructor() { }
+
+  ngOnInit(): void {
+    this.uiConfig = new UiConfig();
+  }
 }
 
 /** UI 界面配置 */
 export class UiConfig {
 
   /** 顶部导航条是否固定 */
-  TopNarvarIsFix: boolean;
+  topNarvarIsFix: boolean;
   /** 侧边菜单是否显示 */
-  SideNavbarIsShow: boolean;
+  sideNavbarIsShow: boolean;
 
   /** 侧边栏 宽度 */
-  SideNavbarWidth: number;
+  sideNavbarWidth: number;
   /** 页面容器最小的宽度，为了保证 footer 在浏览器的最底部 */
-  PageWrapperMiniHeight: number;
+  pageWrapperMiniHeight: number;
 
   constructor() {
-    this.TopNarvarIsFix = true;
-    this.SideNavbarIsShow = true;
+    this.topNarvarIsFix = true;
+    this.sideNavbarIsShow = true;
 
-    this.SideNavbarWidth = 220;
+    this.sideNavbarWidth = 220;
   }
 }

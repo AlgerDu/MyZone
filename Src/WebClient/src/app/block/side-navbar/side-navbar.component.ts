@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UiConfig, ConfigService } from '../../service/config.service';
 
 @Component({
   selector: 'app-side-navbar',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideNavbarComponent implements OnInit {
 
-  constructor() { }
+  uiConfig: UiConfig;
+
+  constructor(
+    config: ConfigService
+  ) {
+    this.uiConfig = config.uiConfig;
+  }
 
   ngOnInit() {
   }
