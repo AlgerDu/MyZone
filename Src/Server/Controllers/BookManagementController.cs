@@ -91,11 +91,7 @@ namespace MyZone.Server.Controllers
         {
             var r = _bookRepo.Search(condition);
 
-            return new SearchResult<NovelListModel>(
-                r.RecodCount,
-                r.PageIndex,
-                r.PageSize,
-                _mapper.Map<IEnumerable<NovelListModel>>(r.Data));
+            return r.Map<Book, NovelListModel>(_mapper);
         }
 
         /// <summary>
