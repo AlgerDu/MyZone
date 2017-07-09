@@ -4,6 +4,7 @@ using System.Linq;
 using MyZone.Server.Infrastructure.Interface;
 using MyZone.Server.Infrastructure.Results;
 using MyZone.Server.Models.Domain.Base;
+using MyZone.Server.Models.Domain.Books;
 using MyZone.Server.Models.Domain.Urls;
 
 namespace MyZone.Server.Models.DataBase
@@ -13,7 +14,7 @@ namespace MyZone.Server.Models.DataBase
     /// </summary>
     public partial class Book : IAggregateRoot<Guid>
     {
-        IList<Url> _unofficialWites = new List<Url>();
+        BookServiceCollection _service;
 
         public Guid Key
         {
@@ -26,17 +27,17 @@ namespace MyZone.Server.Models.DataBase
         /// <summary>
         /// 小说的官方网站
         /// </summary>
-        public Url OfficialSite { get; set; }
-
-        /// <summary>
-        /// 爬去书籍用非官方网站（第三方）
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Url> UnofficialWites
+        public Url OfficialSite
         {
             get
             {
-                return _unofficialWites;
+                LoadBookCrawlInfo();
+
+                var official = this.NovelCrawl
+                    .FirstOrDefault(nc => nc.CrawlUrlType == (long)NovelCrawlUrlType.Official);
+
+                return official == null ?
+                    null : _service.UrlRepo.GetByKey(official.Url);
             }
         }
 
@@ -95,12 +96,35 @@ namespace MyZone.Server.Models.DataBase
         /// <param name="url"></param>
         public void AddUnofficialUrl(Url url)
         {
-            _unofficialWites.Add(url);
         }
 
         void INeedService.InjecteService(IDServiceCollection collection)
         {
-            throw new NotImplementedException();
+            _service = collection as BookServiceCollection;
+        }
+
+        public void LoadBookCrawlInfo()
+        {
+            if (this.NovelCrawl.Count <= 0)
+            {
+                _service.Context.Entry(this)
+                    .Collection(b => b.NovelCrawl)
+                    .Load();
+            }
+        }
+
+        public void LoadBookCatalog()
+        {
+            if (this.Volume.Count <= 0)
+            {
+                _service.Context.Entry(this)
+                    .Collection(b => b.Chapter)
+                    .Load();
+
+                _service.Context.Entry(this)
+                    .Collection(b => b.Volume)
+                    .Load();
+            }
         }
     }
 }

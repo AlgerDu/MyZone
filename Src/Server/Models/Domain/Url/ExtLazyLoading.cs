@@ -14,9 +14,9 @@ namespace MyZone.Server.Models.Domain.Urls
         /// <param name="url"></param>
         public static void LoadUrlPageParse(this IFunnyLazyLoading lazy, Url url)
         {
-            var context = lazy.Context as MyZoneContext;
-            url.Parse = context.PageParse
-                    .FirstOrDefault(pp => pp.Url == url.UrlPath);
+            // var context = lazy.Context as MyZoneContext;
+            // url.Parse = context.PageParse
+            //         .FirstOrDefault(pp => pp.Url == url.UrlPath);
         }
 
         public static void LoadUrlHost(this IFunnyLazyLoading lazy, Url url)
