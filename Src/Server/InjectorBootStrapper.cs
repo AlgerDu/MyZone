@@ -36,9 +36,13 @@ namespace MyZone.Server
 
             builder.RegisterType<MyZoneContext>();
 
-            builder.RegisterType<FunnyLazyLoading>().As<IFunnyLazyLoading>().InstancePerLifetimeScope();
+            builder.RegisterType<FunnyLazyLoading>()
+                    .As<IFunnyLazyLoading>()
+                    .InstancePerLifetimeScope();
 
-            builder.RegisterType<BookServiceCollection>().As<BookServiceCollection>().InstancePerLifetimeScope();
+            builder.RegisterType<BookServiceCollection>()
+                    .As<BookServiceCollection>()
+                    .InstancePerLifetimeScope();
             builder.RegisterType<BookRepository>().As<IBookRepository>().InstancePerLifetimeScope();
             builder.RegisterType<BookFactory>().SingleInstance();
 

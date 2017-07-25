@@ -37,6 +37,42 @@ namespace MyZone.Server.Controllers
         }
 
         /// <summary>
+        /// 获取小说列表
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        public ISearchResult<NovelListModel> Novel(
+            [FromBody]SerachCondition condition
+        )
+        {
+            var r = _bookRepo.Search(condition);
+
+            return r.Map<Book, NovelListModel>(_mapper);
+        }
+
+        /// <summary>
+        /// 设置小说的爬去网站
+        /// </summary>
+        /// <returns></returns>
+        public IResult<bool> SetNovelCrawlSite(
+
+        )
+        {
+            return Result.Error("尚未实现", false);
+        }
+
+        /// <summary>
+        /// 获取小说的爬去网站
+        /// </summary>
+        /// <returns></returns>
+        public IResult<bool> GetNovelCrawlSite(
+
+        )
+        {
+            return Result.Error("尚未实现", false);
+        }
+
+        /// <summary>
         /// 向系统中添加一本小说类型的书籍
         /// </summary>
         /// <param name="novel"></param>
@@ -78,20 +114,6 @@ namespace MyZone.Server.Controllers
             _bookRepo.SaveChanges();
 
             return Result.Success();
-        }
-
-        /// <summary>
-        /// 获取小说列表
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <returns></returns>
-        public ISearchResult<NovelListModel> Novel(
-            [FromBody]SerachCondition condition
-        )
-        {
-            var r = _bookRepo.Search(condition);
-
-            return r.Map<Book, NovelListModel>(_mapper);
         }
 
         /// <summary>
