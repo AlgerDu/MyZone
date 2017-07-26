@@ -25,23 +25,6 @@ namespace MyZone.Server.Models.DataBase
         }
 
         /// <summary>
-        /// 小说的官方网站
-        /// </summary>
-        public Url OfficialSite
-        {
-            get
-            {
-                LoadBookCrawlInfo();
-
-                var official = this.NovelCrawl
-                    .FirstOrDefault(nc => nc.CrawlUrlType == (long)NovelCrawlUrlType.Official);
-
-                return official == null ?
-                    null : _service.UrlRepo.GetByKey(official.Url);
-            }
-        }
-
-        /// <summary>
         /// 添加章节
         /// </summary>
         /// <param name="newVolume"></param>
