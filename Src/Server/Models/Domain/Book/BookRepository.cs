@@ -18,5 +18,11 @@ namespace MyZone.Server.Models.Domain.Books
         {
             _service = service;
         }
+
+        public Book Find(string bookName, string author)
+        {
+            var find = _dbSet.FirstOrDefault(b => b.Name == bookName && b.Author == author);
+            return InjecteService(find);
+        }
     }
 }
