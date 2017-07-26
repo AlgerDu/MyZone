@@ -113,7 +113,7 @@ namespace MyZone.Server.Models.Domain.Base
             return result;
         }
 
-        private IQueryable<TEntity> InjecteService(IQueryable<TEntity> entitys)
+        protected IQueryable<TEntity> InjecteService(IQueryable<TEntity> entitys)
         {
             foreach (var e in entitys)
             {
@@ -123,9 +123,10 @@ namespace MyZone.Server.Models.Domain.Base
             return entitys;
         }
 
-        private TEntity InjecteService(TEntity entity)
+        protected TEntity InjecteService(TEntity entity)
         {
-            entity.InjecteService(_service);
+            if (entity != null)
+                entity.InjecteService(_service);
             return entity;
         }
     }
