@@ -10,6 +10,7 @@ using MyZone.Server.Infrastructure.SearchBase;
 using MyZone.Server.Models.DataBase;
 using MyZone.Server.Models.Domain.Books;
 using MyZone.Server.Models.DTO.BookManagement;
+using MyZone.Server.Models.Domain.Urls;
 
 namespace MyZone.Server.Controllers
 {
@@ -19,21 +20,24 @@ namespace MyZone.Server.Controllers
     public class BookManagementController : Controller
     {
         ILogger _logger;
-        IBookRepository _bookRepo;
         IMapper _mapper;
         IFunnyLazyLoading _lazy;
+        IBookRepository _bookRepo;
+        IUrlRepository _urlRepo;
 
         public BookManagementController(
             ILogger<BookManagementController> logger
             , IBookRepository bookRepo
             , IFunnyLazyLoading lazy
             , IMapper mapper
+            , IUrlRepository urlRepo
         )
         {
             _logger = logger;
             _bookRepo = bookRepo;
             _lazy = lazy;
             _mapper = mapper;
+            _urlRepo = urlRepo;
         }
 
         /// <summary>
@@ -83,6 +87,13 @@ namespace MyZone.Server.Controllers
         )
         {
             var book = bookFactory.CreateNovel(novel);
+
+            var find = _bookRepo.Find(book.Name, book.Author);
+
+            if (find != null)
+            {
+                return Result.Error<Guid>("已经添加了相同作者和书名的书籍");
+            }
 
             _bookRepo.Insert(book);
 
