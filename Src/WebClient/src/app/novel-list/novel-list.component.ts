@@ -31,4 +31,7 @@ export class NovelListComponent implements OnInit {
     ];
   }
 
+  DbClick(novel: NovelListModel) {
+    alert(novel.name);
+  }
 }

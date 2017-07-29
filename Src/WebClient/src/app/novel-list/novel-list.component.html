@@ -28,7 +28,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let n of novels">
+            <tr *ngFor="let n of novels" (dblclick)="DbClick(n)">
               <td>{{n.name}}</td>
               <td>{{n.author}}</td>
               <td>2015-09-11</td>
@@ -36,7 +36,9 @@
               <td>章节数</td>
               <td>{{n.lastUpdateTime}}</td>
               <td>连载</td>
-              <td>编辑</td>
+              <td>
+                <i class="fa fa-edit" aria-hidden="true" tooltip="编辑"></i>
+              </td>
             </tr>
           </tbody>
         </table>

@@ -19,6 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "../node_modules/font-awesome/less//font-awesome.less",
         "vendor/bootstrap/less/bootstrap.less",
         "styles.less"
       ],
