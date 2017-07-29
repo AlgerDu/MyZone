@@ -8,11 +8,13 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SideNavbarComponent } from './block/side-navbar/side-navbar.component';
 import { ConfigService } from './service/config.service';
+import { NovelListComponent } from './novel-list/novel-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SideNavbarComponent
+    SideNavbarComponent,
+    NovelListComponent
   ],
   imports: [
     BrowserModule,
