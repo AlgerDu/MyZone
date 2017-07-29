@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-novel-edit',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NovelEditComponent implements OnInit {
 
-  constructor() { }
+  author: string;
+  name: string;
+
+  constructor(
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    //this.route.snapshot.params
+
+    this.author = this.route.snapshot.params['author'];
+    this.name = this.route.snapshot.params['name'];
+
+    console.log(this.author);
   }
 
 }
