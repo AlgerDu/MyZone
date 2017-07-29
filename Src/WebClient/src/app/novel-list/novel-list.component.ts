@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { NovelListModel } from '../models/novel-list.model';
 
 @Component({
@@ -10,7 +12,9 @@ export class NovelListComponent implements OnInit {
 
   novels: Array<NovelListModel>;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.novels = [
@@ -33,5 +37,9 @@ export class NovelListComponent implements OnInit {
 
   DbClick(novel: NovelListModel) {
     alert(novel.name);
+  }
+
+  Edit(novel: NovelListModel) {
+    this.router.navigate(['/spider/novel', novel.author, novel.name, 'edit']);
   }
 }
