@@ -9,12 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { SideNavbarComponent } from './block/side-navbar/side-navbar.component';
 import { ConfigService } from './service/config.service';
 import { NovelListComponent } from './novel-list/novel-list.component';
+import { NovelEditComponent } from './novel-edit/novel-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SideNavbarComponent,
-    NovelListComponent
+    NovelListComponent,
+    NovelEditComponent
   ],
   imports: [
     BrowserModule,
