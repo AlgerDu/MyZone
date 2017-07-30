@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule, JsonpModule } from '@angular/http';
 
 import { TabsModule, AccordionModule, TooltipModule } from 'ngx-bootstrap';
 
@@ -20,6 +22,9 @@ import { NovelEditComponent } from './novel-edit/novel-edit.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    HttpModule,
+    JsonpModule,
     AppRoutingModule,
     TabsModule.forRoot(),
     AccordionModule.forRoot(),
