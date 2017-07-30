@@ -12,6 +12,8 @@ import { SideNavbarComponent } from './block/side-navbar/side-navbar.component';
 import { ConfigService } from './service/config.service';
 import { NovelListComponent } from './novel-list/novel-list.component';
 import { NovelEditComponent } from './novel-edit/novel-edit.component';
+import { HttpService } from './service/http.service';
+import { NovelManagementService } from './service/novel-management.srvice';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,11 @@ import { NovelEditComponent } from './novel-edit/novel-edit.component';
     AccordionModule.forRoot(),
     TooltipModule.forRoot()
   ],
-  providers: [ConfigService],
+  providers: [
+    ConfigService,
+    HttpService,
+    NovelManagementService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

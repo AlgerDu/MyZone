@@ -69,7 +69,8 @@ export class Result {
     message: string;
     data: any;
 
-    dataToClass<T>(): T {
+    /** 将 result 转换为一个具体的 T 类型 */
+    dataToClassT<T>(): T {
         return classToClass<T>(this.data);
     }
 }
