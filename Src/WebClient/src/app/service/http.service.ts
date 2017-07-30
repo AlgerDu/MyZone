@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { plainToClass, classToClass } from "class-transformer";
+
 import "reflect-metadata";
 import "es6-shim";
 
@@ -40,7 +42,10 @@ export class HttpService implements OnInit {
     /** 将 http 请求回来的数据包装成 json 对象 */
     private extractData(res: Response) {
         let body = res.json();
-        return body.data || {};
+
+        var result = classToClass<Result>(body.data);
+
+        return result;
     }
 
     /** 处理 http 的请求错误 */
@@ -58,8 +63,13 @@ export class HttpService implements OnInit {
     }
 }
 
+/** 和后端定义好的一个通用返回结果 */
 export class Result {
     code: string;
     message: string;
     data: any;
+
+    dataToClass<T>(): T {
+        return classToClass<T>(this.data);
+    }
 }
