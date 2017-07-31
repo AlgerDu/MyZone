@@ -7,8 +7,8 @@ import 'rxjs/add/operator/map';
 
 import { plainToClass, classToClass } from "class-transformer";
 
-import "reflect-metadata";
-import "es6-shim";
+// import "reflect-metadata";
+// import "es6-shim";
 
 /**
  * http 请求 帮助服务
