@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { NovelListModel } from '../models/novel-list.model';
+import { NovelManagementService } from '../service/novel-management.srvice';
 
 @Component({
   selector: 'app-novel-list',
@@ -13,10 +14,16 @@ export class NovelListComponent implements OnInit {
   novels: Array<NovelListModel>;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private novelManagement: NovelManagementService
   ) { }
 
   ngOnInit() {
+
+    this.novelManagement.list().then(data => {
+      console.log(data);
+    })
+
     this.novels = [
       {
         uid: 'n1', name: '修真聊天群', author: '圣骑士的传说',

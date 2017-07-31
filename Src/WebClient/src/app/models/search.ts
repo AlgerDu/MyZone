@@ -19,4 +19,9 @@ export class SearchConfition {
     pageSize: number;
     pageIndex: number;
     filterItems: Array<SearchConditionFilter>;
+
+    constructor() {
+        this.pageSize = 5;
+        this.pageIndex = 1;
+    }
 }
