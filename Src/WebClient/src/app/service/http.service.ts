@@ -6,6 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { plainToClass, classToClass } from "class-transformer";
+import { ClassType } from "class-transformer/ClassTransformer";
 
 // import "reflect-metadata";
 // import "es6-shim";
@@ -43,8 +44,8 @@ export class HttpService implements OnInit {
     private extractData(res: Response) {
         let body = res.json();
 
-        var result = classToClass<Result>(body.data);
-
+        var result = plainToClass(Result, body);
+        console.log(result);
         return result;
     }
 
@@ -72,5 +73,6 @@ export class Result {
     /** 将 result 转换为一个具体的 T 类型 */
     dataToClassT<T>(): T {
         return classToClass<T>(this.data);
+        //return null;
     }
 }

@@ -22,7 +22,7 @@ export class NovelListComponent implements OnInit {
 
     this.novelManagement.list().then(data => {
       console.log(data);
-    })
+    });
 
     this.novels = [
       {

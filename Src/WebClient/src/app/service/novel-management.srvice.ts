@@ -29,7 +29,8 @@ export class NovelManagementService implements OnInit {
         return this.http.post('/bookManagement/novel', condition)
             .toPromise()
             .then((result: Result) => {
-                console.log(result);
+                var d = result.dataToClassT<NovelListModel[]>();
+                console.log(d);
                 return null;
             })
             .catch((error) => {
