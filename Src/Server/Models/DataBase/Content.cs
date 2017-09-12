@@ -16,7 +16,7 @@ namespace MyZone.Server.Models.DataBase
         public DateTime? EditeTime { get; set; }
         public long ContentType { get; set; }
 
-        public virtual ICollection<Chapter> Chapter { get; set; }
-        public virtual DbEnum ContentTypeNavigation { get; set; }
+        public DbEnum ContentTypeNavigation { get; set; }
+        public ICollection<Chapter> Chapter { get; set; }
     }
 }

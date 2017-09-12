@@ -15,7 +15,7 @@ namespace MyZone.Server.Models.DataBase
         public bool Vip { get; set; }
         public bool NeedCrawl { get; set; }
 
-        public virtual Book BookU { get; set; }
-        public virtual Content ContextU { get; set; }
+        public Book BookU { get; set; }
+        public Content ContextU { get; set; }
     }
 }

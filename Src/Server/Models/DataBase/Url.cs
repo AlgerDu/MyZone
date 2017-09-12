@@ -8,6 +8,6 @@ namespace MyZone.Server.Models.DataBase
         public string UrlPath { get; set; }
         public long Utype { get; set; }
 
-        public virtual DbEnum UtypeNavigation { get; set; }
+        public DbEnum UtypeNavigation { get; set; }
     }
 }

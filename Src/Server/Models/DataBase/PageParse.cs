@@ -10,6 +10,6 @@ namespace MyZone.Server.Models.DataBase
         public long MinLength { get; set; }
         public string SscriptCode { get; set; }
 
-        public virtual DbEnum PageTypeNavigation { get; set; }
+        public DbEnum PageTypeNavigation { get; set; }
     }
 }

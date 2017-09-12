@@ -19,9 +19,9 @@ namespace MyZone.Server.Models.DataBase
         public long ParentId { get; set; }
         public string Description { get; set; }
 
-        public virtual ICollection<Content> Content { get; set; }
-        public virtual ICollection<NovelCrawl> NovelCrawl { get; set; }
-        public virtual ICollection<PageParse> PageParse { get; set; }
-        public virtual ICollection<Url> Url { get; set; }
+        public ICollection<Content> Content { get; set; }
+        public ICollection<NovelCrawl> NovelCrawl { get; set; }
+        public ICollection<PageParse> PageParse { get; set; }
+        public ICollection<Url> Url { get; set; }
     }
 }

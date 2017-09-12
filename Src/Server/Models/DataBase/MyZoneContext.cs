@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 namespace MyZone.Server.Models.DataBase
 {
@@ -34,8 +32,7 @@ namespace MyZone.Server.Models.DataBase
         {
             modelBuilder.Entity<Book>(entity =>
             {
-                entity.HasKey(e => e.Uid)
-                    .HasName("PK_Book");
+                entity.HasKey(e => e.Uid);
 
                 entity.Property(e => e.Uid).ValueGeneratedNever();
 
@@ -44,15 +41,14 @@ namespace MyZone.Server.Models.DataBase
 
             modelBuilder.Entity<Chapter>(entity =>
             {
-                entity.HasKey(e => new { e.BookUid, e.VolumeNo, e.VolumeIndex })
-                    .HasName("PK_Chapter");
+                entity.HasKey(e => new { e.BookUid, e.VolumeNo, e.VolumeIndex });
 
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.HasOne(d => d.BookU)
                     .WithMany(p => p.Chapter)
                     .HasForeignKey(d => d.BookUid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Chapter_BookUid_fkey");
 
                 entity.HasOne(d => d.ContextU)
@@ -63,8 +59,7 @@ namespace MyZone.Server.Models.DataBase
 
             modelBuilder.Entity<Content>(entity =>
             {
-                entity.HasKey(e => e.Uid)
-                    .HasName("PK_Content");
+                entity.HasKey(e => e.Uid);
 
                 entity.Property(e => e.Uid).ValueGeneratedNever();
 
@@ -73,7 +68,7 @@ namespace MyZone.Server.Models.DataBase
                 entity.HasOne(d => d.ContentTypeNavigation)
                     .WithMany(p => p.Content)
                     .HasForeignKey(d => d.ContentType)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Content_ContentType_fkey");
             });
 
@@ -94,8 +89,7 @@ namespace MyZone.Server.Models.DataBase
 
             modelBuilder.Entity<Host>(entity =>
             {
-                entity.HasKey(e => e.Uid)
-                    .HasName("PK_Host");
+                entity.HasKey(e => e.Uid);
 
                 entity.HasIndex(e => e.Name)
                     .HasName("Host_Name_key")
@@ -108,26 +102,24 @@ namespace MyZone.Server.Models.DataBase
 
             modelBuilder.Entity<NovelCrawl>(entity =>
             {
-                entity.HasKey(e => new { e.BookUid, e.Url })
-                    .HasName("PK_NovelCrawl");
+                entity.HasKey(e => new { e.BookUid, e.Url });
 
                 entity.HasOne(d => d.BookU)
                     .WithMany(p => p.NovelCrawl)
                     .HasForeignKey(d => d.BookUid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("NovelCrawl_BookUid_fkey");
 
                 entity.HasOne(d => d.CrawlUrlTypeNavigation)
                     .WithMany(p => p.NovelCrawl)
                     .HasForeignKey(d => d.CrawlUrlType)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("NovelCrawl_CrawlUrlType_fkey");
             });
 
             modelBuilder.Entity<PageParse>(entity =>
             {
-                entity.HasKey(e => new { e.Url, e.PageType })
-                    .HasName("PK_PageParse");
+                entity.HasKey(e => new { e.Url, e.PageType });
 
                 entity.Property(e => e.SscriptCode)
                     .IsRequired()
@@ -136,35 +128,35 @@ namespace MyZone.Server.Models.DataBase
                 entity.HasOne(d => d.PageTypeNavigation)
                     .WithMany(p => p.PageParse)
                     .HasForeignKey(d => d.PageType)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("PageParse_PageType_fkey");
             });
 
             modelBuilder.Entity<Url>(entity =>
             {
-                entity.HasKey(e => e.UrlPath)
-                    .HasName("PK_Url");
+                entity.HasKey(e => e.UrlPath);
+
+                entity.Property(e => e.UrlPath).ValueGeneratedNever();
 
                 entity.Property(e => e.Utype).HasColumnName("UType");
 
                 entity.HasOne(d => d.UtypeNavigation)
                     .WithMany(p => p.Url)
                     .HasForeignKey(d => d.Utype)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Url_UType_fkey");
             });
 
             modelBuilder.Entity<Volume>(entity =>
             {
-                entity.HasKey(e => new { e.BookUid, e.No })
-                    .HasName("PK_Volume");
+                entity.HasKey(e => new { e.BookUid, e.No });
 
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.HasOne(d => d.BookU)
                     .WithMany(p => p.Volume)
                     .HasForeignKey(d => d.BookUid)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Volume_BookUid_fkey");
             });
         }

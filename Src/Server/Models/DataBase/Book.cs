@@ -16,8 +16,8 @@ namespace MyZone.Server.Models.DataBase
         public string Name { get; set; }
         public string Author { get; set; }
 
-        public virtual ICollection<Chapter> Chapter { get; set; }
-        public virtual ICollection<NovelCrawl> NovelCrawl { get; set; }
-        public virtual ICollection<Volume> Volume { get; set; }
+        public ICollection<Chapter> Chapter { get; set; }
+        public ICollection<NovelCrawl> NovelCrawl { get; set; }
+        public ICollection<Volume> Volume { get; set; }
     }
 }

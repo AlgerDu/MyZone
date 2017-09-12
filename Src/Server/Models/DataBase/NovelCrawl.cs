@@ -10,7 +10,7 @@ namespace MyZone.Server.Models.DataBase
         public long CrawlUrlType { get; set; }
         public DateTime? LastCrawlTime { get; set; }
 
-        public virtual Book BookU { get; set; }
-        public virtual DbEnum CrawlUrlTypeNavigation { get; set; }
+        public Book BookU { get; set; }
+        public DbEnum CrawlUrlTypeNavigation { get; set; }
     }
 }

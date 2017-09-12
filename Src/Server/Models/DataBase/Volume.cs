@@ -9,6 +9,6 @@ namespace MyZone.Server.Models.DataBase
         public long No { get; set; }
         public string Name { get; set; }
 
-        public virtual Book BookU { get; set; }
+        public Book BookU { get; set; }
     }
 }
