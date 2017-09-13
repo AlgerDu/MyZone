@@ -17,6 +17,7 @@ namespace MyZone.Server.Controllers
     /// <summary>
     /// 数据管理
     /// </summary>
+    [Route("api/[controller]")]
     public class BookManagementController : Controller
     {
         ILogger _logger;
@@ -45,6 +46,7 @@ namespace MyZone.Server.Controllers
         /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>
+        [HttpPost("novel")]
         public ISearchResult<NovelListModel> Novel(
             [FromBody]SerachCondition condition
         )
