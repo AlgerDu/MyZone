@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { NovelListModel } from '../models/novel-list.model';
-import { NovelManagementService } from '../service/novel-management.srvice';
+import { NovelListModel } from '../novel-list.model';
+import { NovelManagementService } from '../novel-management.srvice';
 
 @Component({
   selector: 'app-novel-list',

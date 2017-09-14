@@ -1,9 +1,9 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpService, Result } from './http.service';
-import { SearchConfition } from '../models/search';
-import { NovelListModel } from '../models/novel-list.model';
+import { NovelListModel } from './novel-list.model';
 
 import 'rxjs/add/operator/toPromise';
+import { SearchConfition } from '../../models/search';
+import { HttpService, Result } from '../../service/http.service';
 
 /**
  * 小说管理 业务服务

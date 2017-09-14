@@ -10,25 +10,24 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { SideNavbarComponent } from './block/side-navbar/side-navbar.component';
-import { NovelListComponent } from './novel-list/novel-list.component';
-import { NovelEditComponent } from './novel-edit/novel-edit.component';
 
 import { ConfigService } from './service/config.service';
 import { HttpService } from './service/http.service';
-import { NovelManagementService } from './service/novel-management.srvice';
+import { SpiderModule } from './spider/spider.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SideNavbarComponent,
-    NovelListComponent,
-    NovelEditComponent
+    SideNavbarComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     JsonpModule,
+
+    SpiderModule,
+
     AppRoutingModule,
     TabsModule.forRoot(),
     AccordionModule.forRoot(),
@@ -36,8 +35,7 @@ import { NovelManagementService } from './service/novel-management.srvice';
   ],
   providers: [
     ConfigService,
-    HttpService,
-    NovelManagementService
+    HttpService
   ],
   bootstrap: [AppComponent]
 })
