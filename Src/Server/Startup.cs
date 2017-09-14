@@ -50,6 +50,18 @@ namespace MyZone.Server
 
             app.UseFileServer();
 
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.Value.StartsWith("api"))
+                {
+                    await next();
+                }
+                else
+                {
+                    context.Response.StatusCode = 304;
+                }
+            });
+
             app.UseMvc();
         }
     }
