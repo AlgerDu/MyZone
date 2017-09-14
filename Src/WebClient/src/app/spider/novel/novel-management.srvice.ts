@@ -26,7 +26,7 @@ export class NovelManagementService implements OnInit {
             condition = new SearchConfition();
         }
 
-        return this.http.post('/bookManagement/novel', condition)
+        return this.http.post('api/bookManagement/novel', condition)
             .toPromise()
             .then((result: Result) => {
                 var d = result.dataToClassT<NovelListModel[]>();
